@@ -1,4 +1,7 @@
 package com.temp.webshop.webshop.repository;
 
-public interface ProductRepository {
+import com.temp.webshop.webshop.entity.Product;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface ProductRepository extends JpaRepository<Product, Long> {
 }
