@@ -1,5 +1,6 @@
 package com.temp.webshop.authentication.entity;
 
+import com.temp.webshop.webshop.entity.ShoppingCart;
 import jakarta.persistence.*;
 
 @Entity
@@ -12,6 +13,8 @@ public class ApplicationUser {
     @Column(unique = true)
     private String username;
     private String password;
+    @ManyToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private ShoppingCart shoppingCart;
 
     public ApplicationUser() {}
 
@@ -48,6 +51,15 @@ public class ApplicationUser {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public ShoppingCart getShoppingCart() {
+        return shoppingCart;
+    }
+
+    public void setShoppingCart(ShoppingCart shoppingCart) {
+        this.shoppingCart = shoppingCart;
+        shoppingCart.setUser(this);
     }
 
     @Override

@@ -7,10 +7,7 @@ import com.temp.webshop.webshop.repository.ShoppingCartRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class ShoppingCartService {
@@ -21,10 +18,19 @@ public class ShoppingCartService {
     @Autowired
     private ProductService productService;
 
-    public String addProductToCart(Long id) {
-        Product foundProduct = productService.getOneProduct(id).orElse(null);
-        return String.format("Product: %s, was added to cart. \nPrice: ",
-                foundProduct.getProductName(), foundProduct.getCost());
+    private List<Product> products;
+
+    //User måste ha en cart kopplad till sig = @JoinColumn
+
+
+    public String addProductToCart(Long cartId, Long productId, int quantity) {
+        ShoppingCart selectedShoppingCart = shoppingCartRepository.findById(cartId).orElse(null);
+        Product foundProduct = productService.getOneProduct(productId).orElse(null);
+        for (int i = 0; i < quantity; i++) {
+            products.add(foundProduct);
+        }
+        return String.format("Product: %s, was added to cart. \nPrice: \nQuantity: ",
+                foundProduct.getProductName(), foundProduct.getCost(), quantity);
     }
 
     public Product getOneProductFromCart(Long cartId, Long productId) {
@@ -34,7 +40,7 @@ public class ShoppingCartService {
 
     public List<Product> getAllProductsFromCart(Long cartId) {
         ShoppingCart foundShoppingCart = shoppingCartRepository.findById(cartId).orElse(null);
-        Set<Product> productsInCart = new HashSet<>();
+        List<Product> productsInCart = new ArrayList<>();
         productsInCart = foundShoppingCart.getProducts();
         for (Product product : productsInCart) {
             System.out.println(String.format("Product: %s \nPrice: %d \nDescription: %s",
