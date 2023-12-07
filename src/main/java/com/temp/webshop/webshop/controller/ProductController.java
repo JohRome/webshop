@@ -1,9 +1,7 @@
 package com.temp.webshop.webshop.controller;
 
 import com.temp.webshop.webshop.entity.Product;
-import com.temp.webshop.webshop.repository.ProductRepository;
 import com.temp.webshop.webshop.service.ProductService;
-import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
