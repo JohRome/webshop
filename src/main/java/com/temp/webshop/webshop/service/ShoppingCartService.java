@@ -1,5 +1,6 @@
 package com.temp.webshop.webshop.service;
 
+import com.temp.webshop.authentication.entity.ApplicationUser;
 import com.temp.webshop.webshop.entity.Product;
 import com.temp.webshop.webshop.entity.ShoppingCart;
 import com.temp.webshop.webshop.repository.ProductRepository;
@@ -33,8 +34,17 @@ public class ShoppingCartService {
                 foundProduct.getProductName(), foundProduct.getCost(), quantity);
     }
 
-    public Product getOneProductFromCart(Long cartId, Long productId) {
-        ShoppingCart selectedShoppingCart = shoppingCartRepository.findById(cartId).orElse(null);
+    public Product getOneProductFromCart(ApplicationUser user, Long productId) {
+        ShoppingCart selectedShoppingCart = user.getShoppingCart(); //hämtar userns shoppingCart
+        List<Product> productsInCart = selectedShoppingCart.getProducts();
+        for (Product product : productsInCart) {
+            if(product.getProductId() == productId) {
+                System.out.println("Product found");
+                return product;
+            } else {
+                System.out.println("Could not find product");
+            }
+        }
         return productService.getOneProduct(productId).orElse(null);
     }
 
@@ -50,6 +60,7 @@ public class ShoppingCartService {
 
     public String updateCart(Long id, int amount) {
         //Uppdatera antal av något?
+        return"";
     }
 
     public String removeProductFromCart(Long id) { //kunna ta bort bara en?
