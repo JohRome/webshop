@@ -38,7 +38,7 @@ public class ShoppingCartService {
         ShoppingCart selectedShoppingCart = user.getShoppingCart(); //hämtar userns shoppingCart
         List<Product> productsInCart = selectedShoppingCart.getProducts();
         for (Product product : productsInCart) {
-            if(product.getProductId() == productId) {
+            if (product.getProductId() == productId) {
                 System.out.println("Product found");
                 return product;
             } else {
@@ -48,23 +48,39 @@ public class ShoppingCartService {
         return productService.getOneProduct(productId).orElse(null);
     }
 
-    public List<Product> getAllProductsFromCart(Long cartId) {
-        ShoppingCart foundShoppingCart = shoppingCartRepository.findById(cartId).orElse(null);
-        List<Product> productsInCart = new ArrayList<>();
-        productsInCart = foundShoppingCart.getProducts();
+    public List<Product> getAllProductsFromCart(ApplicationUser user) {
+        ShoppingCart foundShoppingCart = user.getShoppingCart();
+        List<Product> productsInCart = foundShoppingCart.getProducts();
         for (Product product : productsInCart) {
             System.out.println(String.format("Product: %s \nPrice: %d \nDescription: %s",
                     product.getProductName(), product.getCost(), product.getDescription()));
         }
+        return productsInCart;
     }
 
-    public String updateCart(Long id, int amount) {
-        //Uppdatera antal av något?
-        return"";
+    public String updateQuantity(ApplicationUser user, Product product, int newQuantity) {
+        Product foundProduct = findProductByName(user, product);
+        if(foundProduct != null) {
+            foundProduct.setQuantity(newQuantity);
+        }
+        return "Quantity changed";
     }
 
     public String removeProductFromCart(Long id) { //kunna ta bort bara en?
         productService.deleteProduct(id);
         return "Product was removed";
+    }
+
+    public Product findProductByName(ApplicationUser user, Product product) {
+        ShoppingCart foundShoppingCart = user.getShoppingCart();
+        List<Product> productsInCart = foundShoppingCart.getProducts();
+        for (Product products : productsInCart) {
+            if (products.getProductName().equalsIgnoreCase(product.getProductName())) {
+                return product;
+            } else {
+                return null;
+            }
+        }
+        return null;
     }
 }

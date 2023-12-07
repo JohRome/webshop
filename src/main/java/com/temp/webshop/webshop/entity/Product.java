@@ -14,19 +14,23 @@ public class Product {
     private int cost;
     private String description;
 
+    private int quantity;
+
     public Product() {}
 
-    public Product(String productName, int cost, String description) {
+    public Product(String productName, int cost, String description, int quantity) {
         this.productName = productName;
         this.cost = cost;
         this.description = description;
+        this.quantity = quantity;
     }
 
-    public Product(Long productId, String productName, int cost, String description) {
+    public Product(Long productId, String productName, int cost, String description, int quantity) {
         this.productId = productId;
         this.productName = productName;
         this.cost = cost;
         this.description = description;
+        this.quantity = quantity;
     }
 
     public Long getProductId() {
@@ -59,6 +63,14 @@ public class Product {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
 
     @Override
