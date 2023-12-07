@@ -13,6 +13,8 @@ public class ApplicationUser {
     @Column(unique = true)
     private String username;
     private String password;
+
+    //private JwtToken jwtToken; ---> som alltid hänger med och autentiserar User (user.getJwtToken());
     @ManyToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private ShoppingCart shoppingCart;
 
