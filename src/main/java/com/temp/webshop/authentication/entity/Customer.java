@@ -30,10 +30,19 @@ public class Customer {
 
     public Customer() {}
 
-    public Customer(String username, String password, ShoppingCart shoppingCart) {
+    //När skapar en ny Customer = får automatiskt en shoppingCart och har alltid endast "USER"-auth
+    public Customer(String username, String password) {
         this.username = username;
         this.password = password;
-        this.shoppingCart = shoppingCart;
+        this.shoppingCart = new ShoppingCart();
+        this.roles = List.of(new Role(UserRole.USER, this));
+    }
+
+    //När man skapar en admin - behöver ej egen shoppingCart ?
+    public Customer(String username, String password, List<Role> roles) {
+        this.username = username;
+        this.password = password;
+        this.roles = roles;
     }
 
     public Long getUserId() {

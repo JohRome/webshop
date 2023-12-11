@@ -1,6 +1,7 @@
 package com.temp.webshop.authentication.service;
 
 import com.temp.webshop.authentication.entity.Customer;
+import com.temp.webshop.authentication.entity.LoginResponseDTO;
 import com.temp.webshop.authentication.entity.Role;
 import com.temp.webshop.authentication.repository.RoleRepository;
 import com.temp.webshop.authentication.repository.UserRepository;
@@ -8,8 +9,13 @@ import com.temp.webshop.webshop.repository.ShoppingCartRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 public class AuthenticationService {
+
+    //Behöver implementera Spring Security
 
     @Autowired
     private UserRepository userRepository;
@@ -51,11 +57,18 @@ public class AuthenticationService {
 
     public Customer registerUser(String username, String password) {
         String encodedPassword = passwordEncoder.encode(password);
-        Role userRole = roleRepository.findByAuthority("USER").get();
-
+        return new Customer(username, encodedPassword);
     }
 
-    public loginUser(String username, String password) {
-
+    public LoginResponseDTO loginUser(String username, String password) {
+        try {
+            Authentication auth = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(username, password)
+            );
+            String token = tokenService.generateJwt(auth);
+            return new LoginResponseDTO(userRepository.findByUsername(username).get(), token);
+        } catch (AuthenticationException e) {
+            return new LoginResponseDTO(null, "");
+        }
     }
 }

@@ -1,6 +1,7 @@
 package com.temp.webshop.authentication.controller;
 
 import com.temp.webshop.authentication.entity.Customer;
+import com.temp.webshop.authentication.entity.LoginResponseDTO;
 import com.temp.webshop.authentication.entity.RegistrationDTO;
 import com.temp.webshop.authentication.service.AuthenticationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,10 @@ public class AuthenticationController {
     }
 
     @PostMapping("/login")
-    public Customer
+    public LoginResponseDTO loginUser(
+            @RequestBody RegistrationDTO body
+    ) {
+        return authenticationService.loginUser(body.getUsername(), body.getPassword());
+    }
 
 }
