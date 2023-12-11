@@ -24,15 +24,21 @@ public class ShoppingCartService {
     //User måste ha en cart kopplad till sig = @JoinColumn
 
 
-    public String addProductToCart(Long cartId, Long productId, int quantity) {
-        ShoppingCart selectedShoppingCart = shoppingCartRepository.findById(cartId).orElse(null);
+    public String addProductToCart(ApplicationUser user, Product product, int quantity) {
+        List<Product> shoppingCart = user.getShoppingCart().getProducts();
+        shoppingCart.add(product);
+        product.setQuantity(quantity);
+        return String.format("Product: %s, was added to cart. \nPrice: \nQuantity: ",
+                product.getProductName(), product.getCost(), quantity);
+    }
+
+        /*ShoppingCart selectedShoppingCart = shoppingCartRepository.findById(cartId).orElse(null);
         Product foundProduct = productService.getOneProduct(productId).orElse(null);
         for (int i = 0; i < quantity; i++) {
             products.add(foundProduct);
         }
-        return String.format("Product: %s, was added to cart. \nPrice: \nQuantity: ",
-                foundProduct.getProductName(), foundProduct.getCost(), quantity);
-    }
+
+    }*/
 
     public Product getOneProductFromCart(ApplicationUser user, Long productId) {
         ShoppingCart selectedShoppingCart = user.getShoppingCart(); //hämtar userns shoppingCart

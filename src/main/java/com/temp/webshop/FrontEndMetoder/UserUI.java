@@ -14,7 +14,8 @@ public class UserUI {
     }
 
     public void addToCart() {
-
+        //välj produkt
+        //välj antal
     }
 
     public void showCart() {

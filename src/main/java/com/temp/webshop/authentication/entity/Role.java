@@ -1,20 +1,27 @@
 package com.temp.webshop.authentication.entity;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
+@Entity
+@Table(name = "roles")
 public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer roleId;
 
-    private String authority;
+    @Enumerated(EnumType.STRING)
+    private UserRole userRole;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private ApplicationUser user;
+
+    //private String authority;
 
     public Role() {}
-    public Role(Integer roleId, String authority) {
-        this.roleId = roleId;
-        this.authority = authority;
+    public Role(UserRole userRole, ApplicationUser user) {
+        this.userRole = userRole;
+        this.user = user;
     }
 
     public Integer getRoleId() {
@@ -25,11 +32,36 @@ public class Role {
         this.roleId = roleId;
     }
 
-    public String getAuthority() {
+    /*public String getAuthority() {
         return authority;
     }
 
     public void setAuthority(String authority) {
         this.authority = authority;
+    }*/
+
+    public UserRole getUserRole() {
+        return userRole;
+    }
+
+    public void setUserRole(UserRole userRole) {
+        this.userRole = userRole;
+    }
+
+    public ApplicationUser getUser() {
+        return user;
+    }
+
+    public void setUser(ApplicationUser user) {
+        this.user = user;
+    }
+
+    @Override
+    public String toString() {
+        return "Role{" +
+                "roleId=" + roleId +
+                ", userRole=" + userRole +
+                ", user=" + user +
+                '}';
     }
 }

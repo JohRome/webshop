@@ -3,34 +3,29 @@ package com.temp.webshop.webshop.entity;
 import jakarta.persistence.*;
 
 @Entity
+@Table(name = "products")
 public class Product {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "product_id")
     private Long productId;
-    @Column(unique = true)
     private String productName;
     private int cost;
     private String description;
-
     private int quantity;
+
+    @ManyToOne
+    @JoinColumn(name = "shopping_cart_id", nullable = false)
+    private ShoppingCart shoppingCart;
 
     public Product() {}
 
-    public Product(String productName, int cost, String description, int quantity) {
+    public Product(String productName, int cost, String description, int quantity, ShoppingCart shoppingCart) {
         this.productName = productName;
         this.cost = cost;
         this.description = description;
         this.quantity = quantity;
-    }
-
-    public Product(Long productId, String productName, int cost, String description, int quantity) {
-        this.productId = productId;
-        this.productName = productName;
-        this.cost = cost;
-        this.description = description;
-        this.quantity = quantity;
+        this.shoppingCart = shoppingCart;
     }
 
     public Long getProductId() {
@@ -71,6 +66,13 @@ public class Product {
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;
+    }
+
+    public ShoppingCart getShoppingCart() {
+        return shoppingCart;
+    }
+    public void setShoppingCart(ShoppingCart shoppingCart) {
+        this.shoppingCart = shoppingCart;
     }
 
     @Override

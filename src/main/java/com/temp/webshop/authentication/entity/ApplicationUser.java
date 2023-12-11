@@ -3,32 +3,32 @@ package com.temp.webshop.authentication.entity;
 import com.temp.webshop.webshop.entity.ShoppingCart;
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "users")
 public class ApplicationUser {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "user_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
     @Column(unique = true)
     private String username;
     private String password;
 
-    //private JwtToken jwtToken; ---> som alltid hänger med och autentiserar User (user.getJwtToken());
-    @ManyToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    //private String jwtToken;// ---> som alltid hänger med och autentiserar User (user.getJwtToken());
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "shopping_cart_id", referencedColumnName = "cartId")
     private ShoppingCart shoppingCart;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Role> roles;
 
     public ApplicationUser() {}
 
-    public ApplicationUser(String username, String password) {
+    public ApplicationUser(String username, String password, ShoppingCart shoppingCart) {
         this.username = username;
         this.password = password;
-    }
-
-    public ApplicationUser(Long userId, String username, String password) {
-        this.userId = userId;
-        this.username = username;
-        this.password = password;
+        this.shoppingCart = shoppingCart;
     }
 
     public Long getUserId() {
@@ -61,15 +61,23 @@ public class ApplicationUser {
 
     public void setShoppingCart(ShoppingCart shoppingCart) {
         this.shoppingCart = shoppingCart;
-        shoppingCart.setUser(this);
+    }
+
+    public List<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<Role> roles) {
+        this.roles = roles;
     }
 
     @Override
     public String toString() {
-        return "User{" +
+        return "ApplicationUser{" +
                 "userId=" + userId +
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
+                ", shoppingCart=" + shoppingCart +
                 '}';
     }
 }

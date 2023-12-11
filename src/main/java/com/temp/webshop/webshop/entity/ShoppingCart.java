@@ -3,28 +3,26 @@ package com.temp.webshop.webshop.entity;
 import com.temp.webshop.authentication.entity.ApplicationUser;
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 @Entity
+@Table(name = "shopping_carts")
 public class ShoppingCart {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long cartId;
 
-    @OneToMany(mappedBy = "shoppingCart", cascade = CascadeType.ALL)
-    private List<Product> products;
-
-    @OneToOne
-    @JoinColumn(name = "user_id")
+    @OneToOne(mappedBy = "shoppingCart")
     private ApplicationUser user;
 
-    public ShoppingCart(Long cartId, List<Product> products) {
-        this.cartId = cartId;
-        this.products = products;
-    }
+    @OneToMany(mappedBy = "shoppingCart", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<Product> products = new ArrayList<>();
+
+    public ShoppingCart() {}
 
     public ApplicationUser getUser() {
         return user;
@@ -52,5 +50,25 @@ public class ShoppingCart {
 
     public void setProducts(List<Product> products) {
         this.products = products;
+    }
+
+    public void addProduct(Product product) {
+        this.products.add(product);
+        product.setShoppingCart(this);
+    }
+
+    // Add a method to remove a product from the list
+    public void removeProduct(Product product) {
+        this.products.remove(product);
+        product.setShoppingCart(null);
+    }
+
+    @Override
+    public String toString() {
+        return "ShoppingCart{" +
+                "cartId=" + cartId +
+                ", user=" + user +
+                ", products=" + products +
+                '}';
     }
 }
