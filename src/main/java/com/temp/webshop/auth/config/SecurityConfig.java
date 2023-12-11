@@ -61,7 +61,8 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests((authorize) ->
                         // Any one client can have access to these endpoints...
-                        authorize.requestMatchers("/auth/**").permitAll()
+                        authorize
+                                .requestMatchers("/auth/**").permitAll()
                                 // .requestMatchers("/api/v1/auth/**").permitAll()
                                 // ...but going further than those, a jwt authentication is needed
                                 .anyRequest().authenticated()

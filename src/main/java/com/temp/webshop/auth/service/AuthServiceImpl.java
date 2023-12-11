@@ -5,7 +5,7 @@ import com.temp.webshop.auth.entity.Customer;
 import com.temp.webshop.auth.payload.LoginDTO;
 import com.temp.webshop.auth.payload.RegisterDTO;
 import com.temp.webshop.auth.repository.RoleRepository;
-import com.temp.webshop.auth.repository.UserRepository;
+import com.temp.webshop.auth.repository.CustomerRepository;
 import com.temp.webshop.auth.security.JWTTokenProvider;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,7 +25,7 @@ import java.util.Set;
 public class AuthServiceImpl implements AuthService {
 
     private final AuthenticationManager authenticationManager;
-    private final UserRepository userRepository;
+    private final CustomerRepository customerRepository;
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
     private final JWTTokenProvider jwtTokenProvider;
@@ -47,25 +47,22 @@ public class AuthServiceImpl implements AuthService {
             Set<Role> gardenMasterRole = setUserRole();
             gardenMaster.setRoles(gardenMasterRole);
 
-            userRepository.save(gardenMaster);
+            customerRepository.save(gardenMaster);
         }
 
-        return "Garden Master registered successfully!";
+        return "Customer registered successfully!";
     }
 
     private boolean isUserOrEmailExisting(RegisterDTO dto) { // Måste ändras namn på
 
-        if (userRepository.existsByUsername(dto.getUsername())) {
-            System.out.println("Username already exists!"); // Måste ändras
+        if (customerRepository.existsByUsername(dto.getUsername())) {
+            System.out.println("Username already exists!"); // Måste ändras till något bättre
         }
-
-//        if (userRepository.existsByEmail(dto.getEmail()))
-//            System.out.println("Email already exists!"); // Måste ändras
 
         return false;
     }
 
-    public Set<Role> setUserRole() {
+    private Set<Role> setUserRole() {
 
         Set<Role> roles = new HashSet<>();
         // The ROLE_USER is automatically set to a newly registered customer by default
@@ -78,9 +75,7 @@ public class AuthServiceImpl implements AuthService {
     private Customer createNewCustomer(RegisterDTO dto) {
 
         var customer = new Customer();
-//        customer.setName(dto.getName());
         customer.setUsername(dto.getUsername());
-//        customer.setEmail(dto.getEmail());
         customer.setPassword(passwordEncoder.encode(dto.getPassword()));
 
         return customer;
