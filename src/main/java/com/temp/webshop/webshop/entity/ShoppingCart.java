@@ -1,12 +1,10 @@
 package com.temp.webshop.webshop.entity;
 
-import com.temp.webshop.authentication.entity.ApplicationUser;
+import com.temp.webshop.authentication.entity.Customer;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 @Entity
 @Table(name = "shopping_carts")
@@ -20,7 +18,7 @@ public class ShoppingCart {
      * En shoppingcart till en user
      */
     @OneToOne(mappedBy = "shoppingCart")
-    private ApplicationUser user;
+    private Customer user;
 
     /***
      * en shoppingcart för flera produkter
@@ -30,11 +28,11 @@ public class ShoppingCart {
 
     public ShoppingCart() {}
 
-    public ApplicationUser getUser() {
+    public Customer getUser() {
         return user;
     }
 
-    public void setUser(ApplicationUser user) {
+    public void setUser(Customer user) {
         this.user = user;
     }
 

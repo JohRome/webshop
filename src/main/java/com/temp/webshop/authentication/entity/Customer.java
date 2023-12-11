@@ -6,16 +6,14 @@ import jakarta.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(name = "users")
-public class ApplicationUser {
+@Table(name = "customers")
+public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
     @Column(unique = true)
     private String username;
     private String password;
-
-    //private String jwtToken;// ---> som alltid hänger med och autentiserar User (user.getJwtToken());
 
     /***
      * En user till en shoppingcart
@@ -27,12 +25,12 @@ public class ApplicationUser {
     /***
      * En user kan ha flera roller
      */
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
     private List<Role> roles;
 
-    public ApplicationUser() {}
+    public Customer() {}
 
-    public ApplicationUser(String username, String password, ShoppingCart shoppingCart) {
+    public Customer(String username, String password, ShoppingCart shoppingCart) {
         this.username = username;
         this.password = password;
         this.shoppingCart = shoppingCart;

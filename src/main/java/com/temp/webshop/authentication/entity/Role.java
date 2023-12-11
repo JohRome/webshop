@@ -14,12 +14,12 @@ public class Role {
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
-    private ApplicationUser user;
+    private Customer user;
 
     //private String authority;
 
     public Role() {}
-    public Role(UserRole userRole, ApplicationUser user) {
+    public Role(UserRole userRole, Customer user) {
         this.userRole = userRole;
         this.user = user;
     }
@@ -48,11 +48,11 @@ public class Role {
         this.userRole = userRole;
     }
 
-    public ApplicationUser getUser() {
+    public Customer getUser() {
         return user;
     }
 
-    public void setUser(ApplicationUser user) {
+    public void setUser(Customer user) {
         this.user = user;
     }
 
