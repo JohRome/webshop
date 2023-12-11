@@ -4,14 +4,13 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-/**
- * Data Transfer Object (DTO) representing the credentials for user login.
- */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class LoginDTO {
 
+    // Vi kanske kan flytta ut hela klassen till en separat modul. På så sätt kan Client-sidan få tillgång till
+    // alla nödvändiga fält, om det ens behövs. Det är inte så jobbigt att fixa senare iofs...
     private String username;
     private String password;
 

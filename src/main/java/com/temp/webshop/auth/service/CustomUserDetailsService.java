@@ -13,10 +13,6 @@ import org.springframework.stereotype.Service;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-/**
- * Custom implementation of Spring Security's UserDetailsService.
- * Responsible for loading user details based on the provided username or email.
- */
 @Service
 @RequiredArgsConstructor
 public class CustomUserDetailsService implements UserDetailsService {

@@ -5,9 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-/**
- * Entity class representing roles in the application.
- */
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

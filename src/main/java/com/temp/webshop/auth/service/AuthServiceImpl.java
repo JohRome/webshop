@@ -14,7 +14,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -30,42 +29,22 @@ public class AuthServiceImpl implements AuthService {
     private final PasswordEncoder passwordEncoder;
     private final JWTTokenProvider jwtTokenProvider;
 
-    /**
-     * Registers a new user with the provided information.
-     *
-     * @param dto The RegisterDTO containing user registration details.
-     * @return A success message upon successful registration.
-     * @throws HttpClientErrorException If the username or email already exists.
-     */
-    @Override
-    public String register(RegisterDTO dto) {
 
-        if (!isUserOrEmailExisting(dto)) {
+    private boolean isUsernameExisting(RegisterDTO dto) {
 
-            var gardenMaster = createNewCustomer(dto);
-
-            Set<Role> gardenMasterRole = setUserRole();
-            gardenMaster.setRoles(gardenMasterRole);
-
-            customerRepository.save(gardenMaster);
-        }
-
-        return "Customer registered successfully!";
-    }
-
-    private boolean isUserOrEmailExisting(RegisterDTO dto) { // Måste ändras namn på
-
+        // Vi kan bygga våra egna Exceptions så det hanteras snyggare ist för att använda en fjutting sout
         if (customerRepository.existsByUsername(dto.getUsername())) {
-            System.out.println("Username already exists!"); // Måste ändras till något bättre
+            System.out.println("Username already exists!");
         }
 
         return false;
     }
 
+
     private Set<Role> setUserRole() {
 
+        // Här bara sätter vi ROLE_USER till automatiskt till varje Customer som reggar sig
         Set<Role> roles = new HashSet<>();
-        // The ROLE_USER is automatically set to a newly registered customer by default
         Role userRole = roleRepository.findByName("ROLE_USER").get();
         roles.add(userRole);
 
@@ -81,12 +60,23 @@ public class AuthServiceImpl implements AuthService {
         return customer;
     }
 
-    /**
-     * Performs user login and generates a JWT token upon successful authentication.
-     *
-     * @param dto The LoginDTO containing user credentials.
-     * @return The generated JWT token.
-     */
+    @Override
+    public String register(RegisterDTO dto) {
+
+        if (!isUsernameExisting(dto)) {
+
+            var gardenMaster = createNewCustomer(dto);
+
+            Set<Role> gardenMasterRole = setUserRole();
+            gardenMaster.setRoles(gardenMasterRole);
+
+            customerRepository.save(gardenMaster);
+        }
+
+        // Samma sak här, vi kanske kan returna något roligare än en fattig String, om det ens behövs...
+        return "Customer registered successfully!";
+    }
+
     @Override
     public String login(LoginDTO dto) {
 

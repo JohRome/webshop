@@ -12,23 +12,18 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-/**
- * Controller class for handling authentication-related requests.
- */
 @RestController
 @RequestMapping("/auth")
 @RequiredArgsConstructor
 public class AuthController {
+
     private final AuthService authService;
 
-    /**
-     * Handles the HTTP POST request for user login.
-     *
-     * @param dto The LoginDTO containing user credentials.
-     * @return ResponseEntity containing a JWTAuthResponse with the access token.
-     */
     @PostMapping("/login")
     public ResponseEntity<JWTAuthResponse> login(@RequestBody LoginDTO dto) {
+
+        // Vi kan välja att skicka tillbaka något annat än JWTAuthResponse ifall vi vill visa flera detaljer,
+        // så som användarnamn kanske? Cart?
         String token = authService.login(dto);
 
         JWTAuthResponse jwtAuthResponse = new JWTAuthResponse();
@@ -37,15 +32,10 @@ public class AuthController {
         return ResponseEntity.ok(jwtAuthResponse);
     }
 
-    /**
-     * Handles the HTTP POST request for user registration.
-     *
-     * @param dto The RegisterDTO containing user registration details.
-     * @return ResponseEntity with a string response and HTTP status code 201 (Created).
-     */
     @PostMapping("/register")
     public ResponseEntity<String> register(@RequestBody RegisterDTO dto) {
 
+        // Samma som ovan, vi kanske ska skicka tillbaka något mer än en fjuttig String?
         String response = authService.register(dto);
 
         return new ResponseEntity<>(response, HttpStatus.CREATED);

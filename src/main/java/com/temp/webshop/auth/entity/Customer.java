@@ -9,10 +9,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.Set;
-
-/**
- * Entity class representing users in the application.
- */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -28,14 +24,16 @@ public class Customer implements UserDetails {
     @Column(nullable = false)
     private String password;
 
-    // If we load a user entity it will also load its roles, thanks to EAGER
+    // Vi får lägga till en relation till Cart här
+
+
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "user_roles",
             joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
     private Set<Role> roles;
 
-    // Custom implementation is done in CustomUserDetailsService.class
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return null;

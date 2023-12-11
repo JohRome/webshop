@@ -5,19 +5,11 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
 
-/**
- * Repository interface for managing users in the application.
- */
 public interface CustomerRepository extends JpaRepository<Customer, Long> {
 
-//    Optional<Customer> findByEmail(String email);
-
-//    Optional<Customer> findByUsernameOrEmail(String username, String email);
+    // Detta Repository kan vi nog lägga i webshop-paketet, just för att vi då har allt på ett och samma ställe
 
     Optional<Customer> findByUsername(String username);
 
     Boolean existsByUsername(String username);
-
-//    Boolean existsByEmail(String email);
-
 }

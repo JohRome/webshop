@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class AdminController {
 
     @GetMapping("/")
+    // Denna annoteringen är den jag hänvisar till i SecurityConfig klassen. Båda sätt fungerar så vi får välja
+    // vad vi vill köra på
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String getAdminName(@AuthenticationPrincipal UserDetails userDetails) {
         return String.format("You are logged in as %s", userDetails.getUsername());
