@@ -16,6 +16,8 @@ public class CustomerController {
     // vad vi vill köra på
     @PreAuthorize("hasRole('ROLE_CUSTOMER')")
     public String getCustomerName(@AuthenticationPrincipal UserDetails userDetails) {
+        // Det är här som jag hoppas att magin kan hända. Via userDetails får vi username och med det
+        // kan vi väl banne mig hitta Cart?
         return String.format("You are logged in as %s", userDetails.getUsername());
     }
 }
