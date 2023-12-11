@@ -14,6 +14,9 @@ public class Product {
     private String description;
     private int quantity;
 
+    /***
+     * Flera produkter till en shoppingcart
+     */
     @ManyToOne
     @JoinColumn(name = "shopping_cart_id", nullable = false)
     private ShoppingCart shoppingCart;

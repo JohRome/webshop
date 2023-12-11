@@ -16,9 +16,15 @@ public class ShoppingCart {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long cartId;
 
+    /***
+     * En shoppingcart till en user
+     */
     @OneToOne(mappedBy = "shoppingCart")
     private ApplicationUser user;
 
+    /***
+     * en shoppingcart för flera produkter
+     */
     @OneToMany(mappedBy = "shoppingCart", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Product> products = new ArrayList<>();
 

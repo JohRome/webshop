@@ -16,10 +16,17 @@ public class ApplicationUser {
     private String password;
 
     //private String jwtToken;// ---> som alltid hänger med och autentiserar User (user.getJwtToken());
+
+    /***
+     * En user till en shoppingcart
+     */
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "shopping_cart_id", referencedColumnName = "cartId")
     private ShoppingCart shoppingCart;
 
+    /***
+     * En user kan ha flera roller
+     */
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Role> roles;
 
