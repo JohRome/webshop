@@ -7,11 +7,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/admin")
-public class AdminController {
+@RequestMapping("/customer")
+public class CustomerController {
 
     @GetMapping("/")
-    public String getAdminName(@AuthenticationPrincipal UserDetails userDetails) {
+    public String getCustomerName(@AuthenticationPrincipal UserDetails userDetails) {
         return String.format("You are logged in as %s", userDetails.getUsername());
     }
 }
