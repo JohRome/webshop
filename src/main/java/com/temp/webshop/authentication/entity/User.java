@@ -1,13 +1,15 @@
 package com.temp.webshop.authentication.entity;
 
+import com.temp.webshop.webshop.entity.Product;
 import com.temp.webshop.webshop.entity.ShoppingCart;
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "customers")
-public class Customer {
+@Table(name = "users")
+public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
@@ -25,13 +27,13 @@ public class Customer {
     /***
      * En user kan ha flera roller
      */
-    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Role> roles;
 
-    public Customer() {}
+    public User() {}
 
     //När skapar en ny Customer = får automatiskt en shoppingCart och har alltid endast "USER"-auth
-    public Customer(String username, String password) {
+    public User(String username, String password) {
         this.username = username;
         this.password = password;
         this.shoppingCart = new ShoppingCart();
@@ -39,7 +41,7 @@ public class Customer {
     }
 
     //När man skapar en admin - behöver ej egen shoppingCart ?
-    public Customer(String username, String password, List<Role> roles) {
+    public User(String username, String password, List<Role> roles) {
         this.username = username;
         this.password = password;
         this.roles = roles;

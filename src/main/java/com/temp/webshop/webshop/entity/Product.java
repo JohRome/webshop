@@ -2,6 +2,8 @@ package com.temp.webshop.webshop.entity;
 
 import jakarta.persistence.*;
 
+import jakarta.persistence.*;
+
 @Entity
 @Table(name = "products")
 public class Product {
@@ -21,7 +23,8 @@ public class Product {
     @JoinColumn(name = "shopping_cart_id", nullable = false)
     private ShoppingCart shoppingCart;
 
-    public Product() {}
+    public Product() {
+    }
 
     public Product(String productName, int cost, String description, int quantity, ShoppingCart shoppingCart) {
         this.productName = productName;
@@ -30,7 +33,6 @@ public class Product {
         this.quantity = quantity;
         this.shoppingCart = shoppingCart;
     }
-
     public Long getProductId() {
         return productId;
     }

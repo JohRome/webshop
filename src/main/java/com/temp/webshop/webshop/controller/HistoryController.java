@@ -1,6 +1,5 @@
 package com.temp.webshop.webshop.controller;
 
-import com.temp.webshop.authentication.entity.Customer;
 import com.temp.webshop.webshop.entity.ShoppingCart;
 import com.temp.webshop.webshop.service.HistoryService;
 import org.springframework.beans.factory.annotation.Autowired;

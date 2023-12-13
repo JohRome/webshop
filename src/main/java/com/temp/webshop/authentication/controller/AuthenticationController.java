@@ -1,8 +1,5 @@
 package com.temp.webshop.authentication.controller;
 
-import com.temp.webshop.authentication.entity.Customer;
-import com.temp.webshop.authentication.entity.LoginResponseDTO;
-import com.temp.webshop.authentication.entity.RegistrationDTO;
 import com.temp.webshop.authentication.service.AuthenticationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -13,7 +10,7 @@ public class AuthenticationController {
     @Autowired
     private AuthenticationService authenticationService;
 
-    @PostMapping("/register")
+    /*@PostMapping("/register")
     public Customer registerUser(
             @RequestBody RegistrationDTO body
             ) {
@@ -26,6 +23,5 @@ public class AuthenticationController {
             @RequestBody RegistrationDTO body
     ) {
         return authenticationService.loginUser(body.getUsername(), body.getPassword());
-    }
-
+    }*/
 }

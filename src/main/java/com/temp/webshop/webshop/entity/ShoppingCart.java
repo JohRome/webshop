@@ -1,6 +1,6 @@
 package com.temp.webshop.webshop.entity;
 
-import com.temp.webshop.authentication.entity.Customer;
+import com.temp.webshop.authentication.entity.User;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -18,21 +18,23 @@ public class ShoppingCart {
      * En shoppingcart till en user
      */
     @OneToOne(mappedBy = "shoppingCart")
-    private Customer user;
+    private User user;
 
     /***
      * en shoppingcart för flera produkter
      */
     @OneToMany(mappedBy = "shoppingCart", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private List<Product> products = new ArrayList<>();
+    private List<Product> products;
 
-    public ShoppingCart() {}
+    public ShoppingCart() {
+        setProducts(this.products = new ArrayList<>());
+    }
 
-    public Customer getUser() {
+    public User getUser() {
         return user;
     }
 
-    public void setUser(Customer user) {
+    public void setUser(User user) {
         this.user = user;
     }
 
@@ -56,7 +58,7 @@ public class ShoppingCart {
         this.products = products;
     }
 
-    public void addProduct(Product product) {
+    /*public void addProduct(Product product) {
         this.products.add(product);
         product.setShoppingCart(this);
     }
@@ -65,7 +67,7 @@ public class ShoppingCart {
     public void removeProduct(Product product) {
         this.products.remove(product);
         product.setShoppingCart(null);
-    }
+    }*/
 
     @Override
     public String toString() {

@@ -1,6 +1,6 @@
 package com.temp.webshop.webshop.service;
 
-import com.temp.webshop.authentication.entity.Customer;
+import com.temp.webshop.authentication.entity.User;
 import com.temp.webshop.webshop.entity.Product;
 import com.temp.webshop.webshop.entity.ShoppingCart;
 import com.temp.webshop.webshop.repository.ShoppingCartRepository;
@@ -23,7 +23,7 @@ public class ShoppingCartService {
     //User måste ha en cart kopplad till sig = @JoinColumn
 
 
-    public String addProductToCart(Customer user, Product product, int quantity) {
+    public String addProductToCart(User user, Product product, int quantity) {
         List<Product> shoppingCart = user.getShoppingCart().getProducts();
         shoppingCart.add(product);
         product.setQuantity(quantity);
@@ -39,7 +39,7 @@ public class ShoppingCartService {
 
     }*/
 
-    public Product getOneProductFromCart(Customer user, Long productId) {
+    public Product getOneProductFromCart(User user, Long productId) {
         ShoppingCart selectedShoppingCart = user.getShoppingCart(); //hämtar userns shoppingCart
         List<Product> productsInCart = selectedShoppingCart.getProducts();
         for (Product product : productsInCart) {
@@ -53,7 +53,7 @@ public class ShoppingCartService {
         return productService.getOneProduct(productId).orElse(null);
     }
 
-    public List<Product> getAllProductsFromCart(Customer user) {
+    public List<Product> getAllProductsFromCart(User user) {
         ShoppingCart foundShoppingCart = user.getShoppingCart();
         List<Product> productsInCart = foundShoppingCart.getProducts();
         for (Product product : productsInCart) {
@@ -63,7 +63,7 @@ public class ShoppingCartService {
         return productsInCart;
     }
 
-    public String updateQuantity(Customer user, Product product, int newQuantity) {
+    public String updateQuantity(User user, Product product, int newQuantity) {
         Product foundProduct = findProductByName(user, product);
         if(foundProduct != null) {
             foundProduct.setQuantity(newQuantity);
@@ -76,7 +76,7 @@ public class ShoppingCartService {
         return "Product was removed";
     }
 
-    public Product findProductByName(Customer user, Product product) {
+    public Product findProductByName(User user, Product product) {
         ShoppingCart foundShoppingCart = user.getShoppingCart();
         List<Product> productsInCart = foundShoppingCart.getProducts();
         for (Product products : productsInCart) {

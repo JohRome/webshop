@@ -7,29 +7,33 @@ import jakarta.persistence.*;
 public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer roleId;
+    private Long roleid;
 
     @Enumerated(EnumType.STRING)
     private UserRole userRole;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
-    private Customer user;
+    @OneToOne
+    @JoinColumn(name = "userid", nullable = false)
+    private User user;
 
     //private String authority;
 
     public Role() {}
-    public Role(UserRole userRole, Customer user) {
+
+    /**
+     * Tilldelar roll till User - ev. user.getId() != adminId?
+     */
+    public Role(UserRole userRole, User user) {
         this.userRole = userRole;
         this.user = user;
     }
 
-    public Integer getRoleId() {
-        return roleId;
+    public Long getRoleid() {
+        return roleid;
     }
 
-    public void setRoleId(Integer roleId) {
-        this.roleId = roleId;
+    public void setRoleid(Long roleid) {
+        this.roleid = roleid;
     }
 
     /*public String getAuthority() {
@@ -48,20 +52,20 @@ public class Role {
         this.userRole = userRole;
     }
 
-    public Customer getUser() {
+    public User getUser() {
         return user;
     }
 
-    public void setUser(Customer user) {
+    public void setUser(User user) {
         this.user = user;
     }
 
     @Override
     public String toString() {
         return "Role{" +
-                "roleId=" + roleId +
+                "roleId=" + roleid +
                 ", userRole=" + userRole +
-                ", user=" + user +
+                ", customer=" + user +
                 '}';
     }
 }

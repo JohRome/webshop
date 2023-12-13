@@ -1,7 +1,7 @@
 package com.temp.webshop.authentication.entity;
 
 public class LoginResponseDTO {
-    private Customer user;
+    private User user;
     private String jwt;
 
 
@@ -9,16 +9,16 @@ public class LoginResponseDTO {
         super();
     }
 
-    public LoginResponseDTO(Customer user, String jwt){
+    public LoginResponseDTO(User user, String jwt){
         this.user = user;
         this.jwt = jwt;
     }
 
-    public Customer getUser(){
+    public User getUser(){
         return this.user;
     }
 
-    public void setUser(Customer user){
+    public void setUser(User user){
         this.user = user;
     }
 
