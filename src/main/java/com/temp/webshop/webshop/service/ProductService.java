@@ -1,6 +1,5 @@
 package com.temp.webshop.webshop.service;
 
-import com.temp.webshop.webshop.entity.Article;
 import com.temp.webshop.webshop.entity.Product;
 import com.temp.webshop.webshop.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;

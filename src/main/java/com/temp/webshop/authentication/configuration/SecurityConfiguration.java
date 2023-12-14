@@ -56,6 +56,7 @@ public class SecurityConfiguration {
 
                             authorize
                                     .requestMatchers("/auth/**").permitAll()
+                                    .requestMatchers("/products/").permitAll()
                                     .anyRequest().authenticated()
                     ).exceptionHandling(exception -> exception
                             .authenticationEntryPoint(jwtAuthenticationEntryPoint)

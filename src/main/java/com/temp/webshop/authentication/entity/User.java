@@ -1,57 +1,45 @@
 package com.temp.webshop.authentication.entity;
 
-import com.temp.webshop.webshop.entity.ShoppingCart;
+import com.temp.webshop.webshop.entity.Cart;
 import jakarta.persistence.*;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
+@RequiredArgsConstructor
 @Table(name = "users")
-public class User {
+public class User implements UserDetails {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long userId;
-    @Column(unique = true)
+    private Long id;
+
     private String username;
+
     private String password;
 
-    /***
-     * En user till en shoppingcart
-     */
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "shopping_cart_id", referencedColumnName = "cartId")
-    private ShoppingCart shoppingCart;
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Cart cart;
 
-    /***
-     * En user kan ha flera roller
-     */
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private Set<Role> roles;
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "user_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id")
+    )
+    private Set<Role> roles = new HashSet<>();
 
-    public User() {}
-
-    //När skapar en ny Customer = får automatiskt en shoppingCart och har alltid endast "USER"-auth
-    public User(String username, String password) {
-        this.username = username;
-        this.password = password;
-        this.shoppingCart = new ShoppingCart();
-        this.roles = Set.of(new Role(UserRole.USER, this));
+    public Long getId() {
+        return id;
     }
 
-    //När man skapar en admin - behöver ej egen shoppingCart ?
-    public User(Long userId, String username, String password, Set<Role> roles) {
-        this.userId = userId;
-        this.username = username;
-        this.password = password;
-        this.roles = roles;
-    }
-
-    public Long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Long userId) {
-        this.userId = userId;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getUsername() {
@@ -70,12 +58,12 @@ public class User {
         this.password = password;
     }
 
-    public ShoppingCart getShoppingCart() {
-        return shoppingCart;
+    public Cart getCart() {
+        return cart;
     }
 
-    public void setShoppingCart(ShoppingCart shoppingCart) {
-        this.shoppingCart = shoppingCart;
+    public void setCart(Cart cart) {
+        this.cart = cart;
     }
 
     public Set<Role> getRoles() {
@@ -87,12 +75,27 @@ public class User {
     }
 
     @Override
-    public String toString() {
-        return "ApplicationUser{" +
-                "userId=" + userId +
-                ", username='" + username + '\'' +
-                ", password='" + password + '\'' +
-                ", shoppingCart=" + shoppingCart +
-                '}';
+    public boolean isAccountNonLocked() {
+        return true;
     }
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return null;
+    }
+}
 }

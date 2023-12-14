@@ -1,6 +1,6 @@
 package com.temp.webshop.webshop.controller;
 
-import com.temp.webshop.webshop.entity.ShoppingCart;
+import com.temp.webshop.webshop.entity.Cart;
 import com.temp.webshop.webshop.service.HistoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -18,9 +18,9 @@ public class HistoryController {
     private HistoryService historyService;
 
     @GetMapping("/{id}")
-    public ResponseEntity<List<ShoppingCart>> findAllPurchases(
+    public ResponseEntity<List<Cart>> findAllPurchases(
             @PathVariable Long userId
     ) {
-       return ResponseEntity.ok(historyService.findEarlierShoppingCarts(userId));
+       return ResponseEntity.ok(historyService.findEarlierCarts(userId));
     }
 }

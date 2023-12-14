@@ -1,6 +1,5 @@
 package com.temp.webshop.authentication.Payload;
 
-import com.temp.webshop.authentication.entity.User;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor

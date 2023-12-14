@@ -1,16 +1,24 @@
 package com.temp.webshop.authentication.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
+@RequiredArgsConstructor
 @Table(name = "roles")
 public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long roleid;
 
-    @Enumerated(EnumType.STRING)
-    private UserRole userRole;
+    /*@Enumerated(EnumType.STRING)
+    private UserRole userRole;*/
+
+    private String name;
 
     @OneToOne
     @JoinColumn(name = "userid", nullable = false)
@@ -18,15 +26,10 @@ public class Role {
 
     //private String authority;
 
-    public Role() {}
-
-    /**
-     * Tilldelar roll till User - ev. user.getId() != adminId?
-     */
-    public Role(UserRole userRole, User user) {
+    /*public Role(UserRole userRole, User user) {
         this.userRole = userRole;
         this.user = user;
-    }
+    }*/
 
     public Long getRoleid() {
         return roleid;
@@ -42,7 +45,7 @@ public class Role {
 
     public void setAuthority(String authority) {
         this.authority = authority;
-    }*/
+    }
 
     public UserRole getUserRole() {
         return userRole;
@@ -50,6 +53,14 @@ public class Role {
 
     public void setUserRole(UserRole userRole) {
         this.userRole = userRole;
+    }*/
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public User getUser() {

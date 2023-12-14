@@ -1,9 +1,12 @@
 package com.temp.webshop.authentication.controller;
 
-import com.temp.webshop.webshop.entity.User;
+import com.temp.webshop.authentication.entity.User;
 import com.temp.webshop.authentication.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,8 +18,13 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @PreAuthorize("hasRole('ROLE_USER')")
+    public String getCustomerName(@AuthenticationPrincipal UserDetails userDetails) {
+        return String.format("You are logged in as s%", userDetails.getUsername());
+    }
+
     //Lägg nedan i AuthenticationController med instans av UserService
-    @PostMapping("/register")
+    /*@PostMapping("/register")
     public ResponseEntity<User> addUser(User user) {
         return ResponseEntity.ok(userService.saveUser(user));
     }
@@ -44,5 +52,5 @@ public class UserController {
             @PathVariable Long id
     ) {
         return ResponseEntity.ok(userService.deleteUser(id));
-    }
+    }*/
 }

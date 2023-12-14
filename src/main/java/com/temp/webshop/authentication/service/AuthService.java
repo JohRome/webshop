@@ -3,11 +3,12 @@ package com.temp.webshop.authentication.service;
 import com.temp.webshop.authentication.Payload.LoginDTO;
 import com.temp.webshop.authentication.Payload.RegisterDTO;
 import com.temp.webshop.authentication.entity.Role;
-import com.temp.webshop.webshop.entity.User;
+import com.temp.webshop.authentication.entity.User;
 import com.temp.webshop.authentication.repository.RoleRepository;
 import com.temp.webshop.authentication.security.JWTTokenProvider;
+import com.temp.webshop.webshop.entity.Cart;
 import com.temp.webshop.webshop.repository.CartRepository;
-import com.temp.webshop.webshop.repository.UserRepository;
+import com.temp.webshop.authentication.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -27,17 +28,17 @@ public class AuthService implements AuthServiceInterface {
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
     private final JWTTokenProvider jwtTokenProvider;
-    private final CartRepository shoppingCartRepository;
+    private final CartRepository cartRepository;
 
     public AuthService(AuthenticationManager authenticationManager, UserRepository userRepository,
                        RoleRepository roleRepository, PasswordEncoder passwordEncoder,
-                       JWTTokenProvider jwtTokenProvider, CartRepository shoppingCartRepository) {
+                       JWTTokenProvider jwtTokenProvider, CartRepository cartRepository) {
         this.authenticationManager = authenticationManager;
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.passwordEncoder = passwordEncoder;
         this.jwtTokenProvider = jwtTokenProvider;
-        this.shoppingCartRepository = shoppingCartRepository;
+        this.cartRepository = cartRepository;
     }
 
     private boolean isUsernameExisting(RegisterDTO dto) {
@@ -55,10 +56,18 @@ public class AuthService implements AuthServiceInterface {
         return roles;
     }
 
+    private Cart createNewCart() {
+        Cart cart = new Cart();
+        cartRepository.save(cart);
+        return cart;
+    }
+
     private User createNewUser(RegisterDTO dto) {
+        var cart = createNewCart();
         User user = new User();
         user.setUsername(dto.getUsername());
         user.setPassword(passwordEncoder.encode(dto.getPassword()));
+        user.setCart(cart);
 
         return user;
     }

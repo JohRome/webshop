@@ -1,8 +1,5 @@
 package com.temp.webshop.webshop.service;
 
-import com.temp.webshop.authentication.entity.User;
-import com.temp.webshop.webshop.entity.Article;
-import com.temp.webshop.webshop.entity.ShoppingCart;
 import com.temp.webshop.webshop.repository.CartRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

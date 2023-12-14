@@ -2,10 +2,9 @@ package com.temp.webshop.webshop.service;
 
 import com.temp.webshop.webshop.entity.Cart;
 import com.temp.webshop.webshop.entity.Product;
-import com.temp.webshop.webshop.entity.User;
 import com.temp.webshop.webshop.repository.CartRepository;
 import com.temp.webshop.webshop.repository.ProductRepository;
-import com.temp.webshop.webshop.repository.UserRepository;
+import com.temp.webshop.authentication.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -38,7 +37,7 @@ public class CartService {
     }
 
     public List<Product> allProductsInCart() {
-
+        return null;
     }
 
     public void deleteProductFromCart(Long id) {

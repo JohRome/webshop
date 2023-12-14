@@ -1,6 +1,6 @@
-package com.temp.webshop.webshop.repository;
+package com.temp.webshop.authentication.repository;
 
-import com.temp.webshop.webshop.entity.User;
+import com.temp.webshop.authentication.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

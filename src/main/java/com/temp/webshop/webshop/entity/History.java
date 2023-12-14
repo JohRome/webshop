@@ -1,6 +1,5 @@
 package com.temp.webshop.webshop.entity;
 
-import com.temp.webshop.webshop.entity.ShoppingCart;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -18,26 +17,26 @@ import java.util.List;
 public class History {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-    private List<ShoppingCart> earlierShoppingCarts;
+    private Long id;
+    private List<Cart> earlierCarts;
     public History (){}
-    public History(List<ShoppingCart> earlierShoppingCarts) {
-        this.earlierShoppingCarts = earlierShoppingCarts;
+    public History(List<Cart> earlierShoppingCarts) {
+        this.earlierCarts = earlierCarts;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public List<ShoppingCart> getEarlierShoppingCarts() {
-        return earlierShoppingCarts;
+    public List<Cart> getEarlierCarts() {
+        return earlierCarts;
     }
 
-    public void setEarlierShoppingCarts(List<ShoppingCart> earlierShoppingCarts) {
-        this.earlierShoppingCarts = earlierShoppingCarts;
+    public void setEarlierShoppingCarts(List<Cart> earlierCarts) {
+        this.earlierCarts = earlierCarts;
     }
 }

@@ -1,12 +1,17 @@
 package com.temp.webshop.webshop.entity;
 
+import com.temp.webshop.authentication.entity.User;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
 @RequiredArgsConstructor
 @Table(name = "carts")
 public class Cart {
@@ -27,6 +32,7 @@ public class Cart {
     )
     private List<Product> products = new ArrayList<>();
 
+
     public Long getId() {
         return id;
     }
@@ -41,5 +47,13 @@ public class Cart {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public List<Product> getProducts() {
+        return products;
+    }
+
+    public void setProducts(List<Product> products) {
+        this.products = products;
     }
 }
