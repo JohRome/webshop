@@ -3,13 +3,15 @@ package com.temp.webshop.authentication.service;
 import com.temp.webshop.authentication.Payload.LoginDTO;
 import com.temp.webshop.authentication.Payload.RegisterDTO;
 import com.temp.webshop.authentication.entity.Role;
-import com.temp.webshop.authentication.entity.User;
+import com.temp.webshop.webshop.entity.User;
 import com.temp.webshop.authentication.repository.RoleRepository;
 import com.temp.webshop.authentication.security.JWTTokenProvider;
 import com.temp.webshop.webshop.repository.CartRepository;
 import com.temp.webshop.webshop.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -63,11 +65,24 @@ public class AuthService implements AuthServiceInterface {
 
     @Override
     public String login(LoginDTO dto) {
+        var authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
+                dto.getUsername(), dto.getPassword()));
 
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+
+        return jwtTokenProvider.generateJwtToken(authentication);
     }
 
     @Override
     public String register(RegisterDTO dto) {
-        return null;
+        if(!isUsernameExisting(dto)) {
+            var user = createNewUser(dto);
+
+            Set<Role> userRole = setUserRole();
+            user.setRoles(userRole);
+
+            userRepository.save(user);
+        }
+        return "Registration completed";
     }
 }

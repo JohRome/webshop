@@ -37,7 +37,7 @@ public class User implements UserDetails {
     public User(String username, String password, Role role) {
         this.username = username;
         this.password = password;
-        this.cart = new Cart(this);
+        this.cart = setCart(new Cart(this));
         this.roles.add(role);
     }
 
@@ -63,6 +63,22 @@ public class User implements UserDetails {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public Cart getCart() {
+        return cart;
+    }
+
+    public void setCart(Cart cart) {
+        this.cart = cart;
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
     }
 
     @Override

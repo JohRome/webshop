@@ -7,8 +7,6 @@ public class JWTAuthResponse {
     private String accessToken;
     private String TokenType = "Bearer";
 
-    *
-
     public String getAccessToken() {
         return accessToken;
     }
