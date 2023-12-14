@@ -53,23 +53,3 @@ public class RoleInitializer {
         }
     }
 }
-
-    /*@PostConstruct
-    public void createAdminWithAdminRole() {
-        createRoleIfNotExists(UserRole.ADMIN);
-    }
-
-    @PostConstruct
-    public void createUserRole() {
-        createRoleIfNotExists(UserRole.USER);
-    }
-
-    private void createRoleIfNotExists(UserRole userRole) {
-        String roleName = "ROLE_" + userRole.name();
-        if(!roleRepository.existsByName(roleName)) {
-            Role role = new Role();
-            role.setUserRole(userRole);
-            roleRepository.save(role);
-        }
-    }*/
-}

@@ -2,49 +2,48 @@ package com.temp.webshop.webshop.controller;
 
 import com.temp.webshop.webshop.entity.Product;
 import com.temp.webshop.webshop.service.ProductService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
-@RestController
+@RequiredArgsConstructor
 @RequestMapping("/products")
+@RestController
 public class ProductController {
 
-    @Autowired
-    private ProductService productService;
+    private final ProductService productService;
 
-    @PostMapping("")
-    public ResponseEntity<Product> addProduct(Product product) {
-        return ResponseEntity.ok(productService.saveProduct(product));
+    public ProductController(ProductService productService) {
+        this.productService = productService;
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Optional<Product>> findOneProduct(
-            @PathVariable Long id) {
-        Optional<Product> product = productService.getOneProduct(id);
-        return ResponseEntity.ok(product);
+    @PostMapping("/admin")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public Product addProductToShop(@RequestBody Product product) {
+        return productService.addProductToShop(product);
+    }
+
+    @GetMapping("/{productId}")
+    public Product findProductById(@PathVariable Long productId) {
+        return productService.findProductById(productId);
     }
 
     @GetMapping("/")
-    public ResponseEntity<List<Product>> findAllProducts() {
-        return ResponseEntity.ok(productService.getAllProducts());
+    public List<Product> getAllProducts() {
+        return productService.getAllProductsFromShop();
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Product> updateProduct(
-            @PathVariable Long id,
-            @RequestBody Product product
-    ) {
-        return ResponseEntity.ok(productService.updateProduct(id, product));
+    @PutMapping("/{productId}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public Product updateProductInShop(@PathVariable Long productId, @RequestBody Product product) {
+        return productService.updateProductInShop(productId, product);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteProduct(
-            @PathVariable Long id) {
-        productService.deleteProduct(id);
-        return ResponseEntity.ok("Product deleted");
+    @DeleteMapping("/{productId}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public void deleteProductFromShop(@PathVariable Long productId) {
+        productService.deleteProductFromShop(productId);
     }
- }
+}

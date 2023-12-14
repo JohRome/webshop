@@ -13,7 +13,7 @@ public class Product {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private long productId;
     private String name;
     private double price;
     private String description;
@@ -21,12 +21,12 @@ public class Product {
     @ManyToMany(mappedBy = "products")
     private List<Cart> carts = new ArrayList<>();
 
-    public long getId() {
-        return id;
+    public long getProductId() {
+        return productId;
     }
 
-    public void setId(long id) {
-        this.id = id;
+    public void setProductId(long id) {
+        this.productId = productId;
     }
 
     public String getName() {

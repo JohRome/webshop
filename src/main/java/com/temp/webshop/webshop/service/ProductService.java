@@ -2,39 +2,46 @@ package com.temp.webshop.webshop.service;
 
 import com.temp.webshop.webshop.entity.Product;
 import com.temp.webshop.webshop.repository.ProductRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class ProductService {
-    @Autowired
-    private ProductRepository productRepository;
 
-    public Product saveProduct(Product product) {
+    private final ProductRepository productRepository;
+
+    public ProductService(ProductRepository productRepository) {
+        this.productRepository = productRepository;
+    }
+
+
+    public Product addProductToShop(Product product) {
         return productRepository.save(product);
     }
 
-    public Optional<Product> getOneProduct(Long id) {
-        return productRepository.findById(id);
+    public Product findProductById(Long productId) {
+        return productRepository.findById(productId)
+                .orElseThrow(() -> new RuntimeException("Product with id " + productId + " does not exist"));
     }
 
-    public List<Product> getAllProducts() {
+    public List<Product> getAllProductsFromShop() {
         return productRepository.findAll();
     }
 
-    public Product updateProduct(Long id, Product product) {
-        Product newProduct = productRepository.findById(id).orElse(null);
-        newProduct.setName(product.getName());
-        newProduct.setPrice(product.getPrice());
-        newProduct.setDescription(product.getDescription());
-        return newProduct;
+    public Product updateProductInShop(Long productId, Product product) {
+        if (!productRepository.existsById(productId)) {
+            throw new RuntimeException("Product with id " + productId + " does not exist");
+        } else {
+            product.setProductId(productId);
+            return productRepository.save(product);
+
+        }
     }
 
-    public String deleteProduct(Long id) {
-        productRepository.deleteById(id);
-        return "Product deleted";
+    public void deleteProductFromShop(Long productId) {
+        productRepository.deleteById(productId);
     }
 }
