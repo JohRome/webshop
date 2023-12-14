@@ -1,5 +1,6 @@
 package com.temp.webshop.webshop.service;
 
+import com.temp.webshop.webshop.entity.Article;
 import com.temp.webshop.webshop.entity.Product;
 import com.temp.webshop.webshop.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,8 +28,8 @@ public class ProductService {
 
     public Product updateProduct(Long id, Product product) {
         Product newProduct = productRepository.findById(id).orElse(null);
-        newProduct.setProductName(product.getProductName());
-        newProduct.setCost(product.getCost());
+        newProduct.setName(product.getName());
+        newProduct.setPrice(product.getPrice());
         newProduct.setDescription(product.getDescription());
         return newProduct;
     }

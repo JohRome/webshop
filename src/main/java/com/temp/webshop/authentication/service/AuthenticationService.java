@@ -1,33 +1,32 @@
 package com.temp.webshop.authentication.service;
 
-import com.temp.webshop.authentication.repository.RoleRepository;
-import com.temp.webshop.authentication.repository.UserRepository;
-import com.temp.webshop.webshop.repository.ShoppingCartRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class AuthenticationService {
 
-    //Behöver implementera Spring Security
+    /*private final UserRepository userRepository;
 
-    @Autowired
-    private UserRepository userRepository;
+    private final RoleRepository roleRepository;
 
-    @Autowired
-    private RoleRepository roleRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    /*@Autowired
-    private PasswordEncoder passwordEncoder;
+    private final AuthenticationManager authenticationManager;
 
-    @Autowired
-    private AuthenticationManager authenticationManager;*/
+    private final TokenService tokenService;
 
-    @Autowired
-    private TokenService tokenService;
+    private final ShoppingCartRepository shoppingCartRepository;
 
-    @Autowired
-    private ShoppingCartRepository shoppingCartRepository;
+    public AuthenticationService(UserRepository userRepository, RoleRepository roleRepository,
+                                 PasswordEncoder passwordEncoder, AuthenticationManager authenticationManager,
+                                 TokenService tokenService, ShoppingCartRepository shoppingCartRepository) {
+        this.userRepository = userRepository;
+        this.roleRepository = roleRepository;
+        this.passwordEncoder = passwordEncoder;
+        this.authenticationManager = authenticationManager;
+        this.tokenService = tokenService;
+        this.shoppingCartRepository = shoppingCartRepository;
+    }
 
     /**
      * 1. Kunden registrerar sig
@@ -49,9 +48,9 @@ public class AuthenticationService {
 
 
 
-    /*public Customer registerUser(String username, String password) {
+    /*public User registerUser(String username, String password) {
         String encodedPassword = passwordEncoder.encode(password);
-        return new Customer(username, encodedPassword);
+        return new User(username, encodedPassword);
     }
 
     public LoginResponseDTO loginUser(String username, String password) {

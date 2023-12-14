@@ -24,7 +24,7 @@ public class ShoppingCart {
      * en shoppingcart för flera produkter
      */
     @OneToMany(mappedBy = "shoppingCart", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private List<Product> products;
+    private List<Article> products;
 
     public ShoppingCart() {
         setProducts(this.products = new ArrayList<>());
@@ -38,7 +38,7 @@ public class ShoppingCart {
         this.user = user;
     }
 
-    public ShoppingCart(List<Product> products) {
+    public ShoppingCart(List<Article> products) {
         this.products = products;
     }
 
@@ -50,11 +50,11 @@ public class ShoppingCart {
         this.cartId = cartId;
     }
 
-    public List<Product> getProducts() {
+    public List<Article> getProducts() {
         return products;
     }
 
-    public void setProducts(List<Product> products) {
+    public void setProducts(List<Article> products) {
         this.products = products;
     }
 

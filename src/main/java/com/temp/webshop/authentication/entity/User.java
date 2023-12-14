@@ -1,11 +1,9 @@
 package com.temp.webshop.authentication.entity;
 
-import com.temp.webshop.webshop.entity.Product;
 import com.temp.webshop.webshop.entity.ShoppingCart;
 import jakarta.persistence.*;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "users")
@@ -28,7 +26,7 @@ public class User {
      * En user kan ha flera roller
      */
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<Role> roles;
+    private Set<Role> roles;
 
     public User() {}
 
@@ -37,11 +35,12 @@ public class User {
         this.username = username;
         this.password = password;
         this.shoppingCart = new ShoppingCart();
-        this.roles = List.of(new Role(UserRole.USER, this));
+        this.roles = Set.of(new Role(UserRole.USER, this));
     }
 
     //När man skapar en admin - behöver ej egen shoppingCart ?
-    public User(String username, String password, List<Role> roles) {
+    public User(Long userId, String username, String password, Set<Role> roles) {
+        this.userId = userId;
         this.username = username;
         this.password = password;
         this.roles = roles;
@@ -79,11 +78,11 @@ public class User {
         this.shoppingCart = shoppingCart;
     }
 
-    public List<Role> getRoles() {
+    public Set<Role> getRoles() {
         return roles;
     }
 
-    public void setRoles(List<Role> roles) {
+    public void setRoles(Set<Role> roles) {
         this.roles = roles;
     }
 

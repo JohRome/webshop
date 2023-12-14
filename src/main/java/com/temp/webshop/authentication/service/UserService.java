@@ -1,7 +1,7 @@
 package com.temp.webshop.authentication.service;
 
-import com.temp.webshop.authentication.repository.UserRepository;
-import com.temp.webshop.authentication.entity.User;
+import com.temp.webshop.webshop.entity.User;
+import com.temp.webshop.webshop.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

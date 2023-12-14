@@ -1,6 +1,6 @@
 package com.temp.webshop.authentication.controller;
 
-import com.temp.webshop.authentication.entity.User;
+import com.temp.webshop.webshop.entity.User;
 import com.temp.webshop.authentication.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
