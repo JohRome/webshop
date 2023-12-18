@@ -15,10 +15,6 @@ public class ProductController {
 
     private final ProductService productService;
 
-    public ProductController(ProductService productService) {
-        this.productService = productService;
-    }
-
     @PostMapping("/admin")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public Product addProductToShop(@RequestBody Product product) {

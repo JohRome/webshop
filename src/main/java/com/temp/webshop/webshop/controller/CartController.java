@@ -1,6 +1,7 @@
 package com.temp.webshop.webshop.controller;
 
 import com.temp.webshop.webshop.dto.ProductQuantityToCartDTO;
+import com.temp.webshop.webshop.entity.Product;
 import com.temp.webshop.webshop.service.CartService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -15,25 +16,22 @@ public class CartController {
 
     private final CartService cartService;
 
-    public CartController(CartService cartService) {
-        this.cartService = cartService;
-    }
-
-    @PostMapping("/{productId}")
+    @PostMapping("/{id}")
     @PreAuthorize("hasRole('ROLE_USER')")
     public void addProductToCart(
             @AuthenticationPrincipal UserDetails userDetails,
-            @PathVariable Long productId,
+            @PathVariable Long id,
             @RequestBody ProductQuantityToCartDTO quantity) {
-        cartService.addProductToCart(userDetails, productId, quantity.getQuantity());
+        cartService.addProductToCart(userDetails, id , quantity.getQuantity());
     }
 
-    @DeleteMapping("/{productId}")
+    @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ROLE_USER')")
     public void removeProductFromCart(
             @AuthenticationPrincipal UserDetails userDetails,
-            @PathVariable Long productId,
+            @PathVariable Long id,
             @RequestBody ProductQuantityToCartDTO quantity) {
-        cartService.removeProductFromCart(userDetails, productId, quantity.getQuantity());
+        cartService.removeProductFromCart(userDetails, id, quantity.getQuantity());
     }
+
 }

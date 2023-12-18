@@ -13,10 +13,6 @@ public class ProductService {
 
     private final ProductRepository productRepository;
 
-    public ProductService(ProductRepository productRepository) {
-        this.productRepository = productRepository;
-    }
-
 
     public Product addProductToShop(Product product) {
         return productRepository.save(product);
@@ -35,7 +31,7 @@ public class ProductService {
         if (!productRepository.existsById(productId)) {
             throw new RuntimeException("Product with id " + productId + " does not exist");
         } else {
-            product.setProductId(productId);
+            product.setId(productId);
             return productRepository.save(product);
 
         }

@@ -1,9 +1,9 @@
-package com.temp.webshop.authentication.configuration;
+package com.temp.webshop.auth.configuration;
 
-import com.temp.webshop.authentication.entity.Role;
-import com.temp.webshop.authentication.entity.User;;
-import com.temp.webshop.authentication.repository.RoleRepository;
-import com.temp.webshop.authentication.repository.UserRepository;
+import com.temp.webshop.auth.entity.Customer;
+import com.temp.webshop.auth.entity.Role;
+import com.temp.webshop.auth.repository.CustomerRepository;
+import com.temp.webshop.auth.repository.RoleRepository;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -15,18 +15,15 @@ import java.util.Set;
 @Component
 @RequiredArgsConstructor
 public class RoleInitializer {
+
     private final RoleRepository roleRepository;
-    private final UserRepository userRepository;
+    private final CustomerRepository customerRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public RoleInitializer(RoleRepository roleRepository, UserRepository userRepository, PasswordEncoder passwordEncoder) {
-        this.roleRepository = roleRepository;
-        this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
-    }
     @PostConstruct
     public void createAdminWithAdminRole() {
 
+        // Här ser vi till att skapa en admin roll om det inte redan finns
         if (!roleRepository.existsByName("ROLE_ADMIN")) {
             Role adminRole = new Role();
             adminRole.setName("ROLE_ADMIN");
@@ -35,17 +32,20 @@ public class RoleInitializer {
             Set<Role> roles = new HashSet<>();
             roles.add(adminRole);
 
-            User admin = new User(
+            // Här skapar vi en färdig admin med användarnamn och krypterat lösen så vi slipper låta Marcus göra det
+            Customer admin = new Customer(
                     0L,
                     "admin",
                     passwordEncoder.encode("admin"),
                     roles);
-            userRepository.save(admin);
+            customerRepository.save(admin);
         }
     }
 
     @PostConstruct
     public void createRoleUser() {
+        // Här skapar vi bara en vanlig User roll om den inte redan finns
+        // Detta är för att när en ny Customer reggar sig så letar vi först efter ROLE_USER i databasen och sen tilldelar
         if (!roleRepository.existsByName("ROLE_USER")) {
             Role gardenMasterRole = new Role();
             gardenMasterRole.setName("ROLE_USER");
