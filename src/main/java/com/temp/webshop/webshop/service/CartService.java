@@ -87,7 +87,7 @@ public class CartService {
 
         Cart cart = customer.getCart();
         double totalCost = 0;
-        StringBuilder result = new StringBuilder("Items in cart: \n");
+        StringBuilder result = new StringBuilder("");//Items in cart: \n");
         for (CartItem cartItem : cart.getCartItems()) {
             totalCost += cartItem.getProduct().getPrice() * cartItem.getQuantity();
             result.append("Product: ").append(cartItem.getProduct().getName())
@@ -156,5 +156,19 @@ public class CartService {
         // Save the updated cart
         cartRepository.save(cart);
         customerRepository.save(customer);
+    }
+
+    @Transactional
+    public void emptyCart(
+            @AuthenticationPrincipal UserDetails userDetails
+    ) {
+        Customer customer = customerRepository.findByUsername(userDetails.getUsername())
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        //Hämtar den här customers cart
+        Cart cart = customer.getCart();
+
+        //tar bort alla items från cart
+        cart.getCartItems().clear();
     }
 }
