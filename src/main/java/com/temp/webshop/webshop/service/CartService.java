@@ -86,15 +86,26 @@ public class CartService {
                 .orElseThrow(() -> new RuntimeException("User not found"));;
 
         Cart cart = customer.getCart();
-
+        double totalCost = 0;
         StringBuilder result = new StringBuilder("Items in cart: \n");
+        for (CartItem cartItem : cart.getCartItems()) {
+            totalCost += cartItem.getProduct().getPrice() * cartItem.getQuantity();
+            result.append("Product: ").append(cartItem.getProduct().getName())
+                    .append(", Price: ").append(cartItem.getProduct().getPrice())
+                    .append(", Quantity: ").append(cartItem.getQuantity())
+                    //.append(", Total Cost: ").append(totalCost)
+                    .append("\n");
+
+        /*StringBuilder result = new StringBuilder("Items in cart: \n");
         for (CartItem cartItem : cart.getCartItems()) {
             result.append("Product: ").append(cartItem.getProduct().getName())
                     .append(", Price: ").append(cartItem.getProduct().getPrice())
                     .append(", Quantity: ").append(cartItem.getQuantity())
-                    .append("\n");
+                    .append("\n");*/
         }
-        return ResponseEntity.ok(result.toString());
+        String resultWithTotalPrice = result.toString() + "Total Cost: " + totalCost;
+        return ResponseEntity.ok(resultWithTotalPrice);
+        //return ResponseEntity.ok(result.toString());
     }
 
     @Transactional
