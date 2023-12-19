@@ -20,4 +20,8 @@ public class CustomerController {
         // kan vi väl banne mig hitta Cart?
         return String.format("You are logged in as %s ", userDetails.getUsername());
     }
+
+    /*@GetMapping("/cart")
+    @PreAuthorize("hasRole('ROLE_USER')")
+    public*/
 }

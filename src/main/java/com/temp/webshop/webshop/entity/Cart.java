@@ -1,5 +1,6 @@
 package com.temp.webshop.webshop.entity;
 
+import com.temp.webshop.auth.entity.Customer;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -23,6 +24,10 @@ public class Cart {
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     @Column(name="cart_id")
     private Long id;
+
+    @OneToOne
+    @JoinColumn(name = "user_id")
+    private Customer customer;
 
 
     @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL)

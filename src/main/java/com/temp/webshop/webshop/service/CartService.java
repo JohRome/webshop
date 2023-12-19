@@ -2,6 +2,7 @@ package com.temp.webshop.webshop.service;
 
 import com.temp.webshop.auth.entity.Customer;
 import com.temp.webshop.auth.repository.CustomerRepository;
+import com.temp.webshop.webshop.dto.CartItemDTO;
 import com.temp.webshop.webshop.entity.Cart;
 import com.temp.webshop.webshop.entity.CartItem;
 import com.temp.webshop.webshop.entity.Product;
@@ -10,14 +11,13 @@ import com.temp.webshop.webshop.repository.CartRepository;
 import com.temp.webshop.webshop.repository.ProductRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -76,6 +76,25 @@ public class CartService {
 
         // Save cart
         customerRepository.save(customer);
+    }
+
+    @Transactional
+    public ResponseEntity<String> getAllProductsFromCart(
+            @AuthenticationPrincipal UserDetails userDetails
+    ) {
+        Customer customer = customerRepository.findByUsername(userDetails.getUsername())
+                .orElseThrow(() -> new RuntimeException("User not found"));;
+
+        Cart cart = customer.getCart();
+
+        StringBuilder result = new StringBuilder("Items in cart: \n");
+        for (CartItem cartItem : cart.getCartItems()) {
+            result.append("Product: ").append(cartItem.getProduct().getName())
+                    .append(", Price: ").append(cartItem.getProduct().getPrice())
+                    .append(", Quantity: ").append(cartItem.getQuantity())
+                    .append("\n");
+        }
+        return ResponseEntity.ok(result.toString());
     }
 
     @Transactional
