@@ -15,31 +15,31 @@ public class CheckoutController {
 
     private final CartService cartService;
 
-    @DeleteMapping("")
-    @PreAuthorize("hasRole('ROLE_USER')")
-    public String checkoutCart(
-            @AuthenticationPrincipal UserDetails userDetails
-    ) {
-        ResponseEntity<String> responseEntity = cartService.getAllProductsFromCart(userDetails);
-
-        String endShopping = "Thank you for your payment! Here's your receipt: \n" + responseEntity.getBody();
-        cartService.emptyCart(userDetails);
-
-        return endShopping;
-    }
-}
-
-
-
 
     /*public ResponseEntity<String> checkoutCart(
             @AuthenticationPrincipal UserDetails userDetails
+    ) {
+        String receipt = cartService.getReceipt(userDetails);
+
+        cartService.emptyCart(userDetails);
+
+        return ResponseEntity.ok(receipt);
+    }
+}*/
+    @DeleteMapping("")
+    @PreAuthorize("hasRole('ROLE_USER')")
+    public ResponseEntity<String> checkoutCart(
+            @AuthenticationPrincipal UserDetails userDetails
             ) {
-        ResponseEntity<String> response = cartService.getAllProductsFromCart(userDetails);
 
-        String endShopping = "Thank you for your payment! Here's your receipt: \n" + response;
-        cartService.deleteCart(userDetails);
+        ResponseEntity<String> response = cartService.getReceipt(userDetails);
 
-        return ResponseEntity.ok(endShopping);
-    }*/
+        return response;
+    }
+}
+
+/*ResponseEntity<String> response = cartService.getAllProductsFromCart(userDetails);
+
+        String endShopping = "Thank you for your payment! Here's your receipt: \n" + response;*/
+//cartService.deleteCart(userDetails);
 

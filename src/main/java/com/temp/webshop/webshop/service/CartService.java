@@ -2,7 +2,6 @@ package com.temp.webshop.webshop.service;
 
 import com.temp.webshop.auth.entity.Customer;
 import com.temp.webshop.auth.repository.CustomerRepository;
-import com.temp.webshop.webshop.dto.CartItemDTO;
 import com.temp.webshop.webshop.entity.Cart;
 import com.temp.webshop.webshop.entity.CartItem;
 import com.temp.webshop.webshop.entity.Product;
@@ -17,7 +16,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -158,6 +156,8 @@ public class CartService {
         customerRepository.save(customer);
     }
 
+
+
     @Transactional
     public void emptyCart(
             @AuthenticationPrincipal UserDetails userDetails
@@ -168,7 +168,44 @@ public class CartService {
         //Hämtar den här customers cart
         Cart cart = customer.getCart();
 
-        //tar bort alla items från cart
-        cart.getCartItems().clear();
+        List<CartItem> itemsInCart = new ArrayList<>(cart.getCartItems());
+
+        Iterator<CartItem> iterator = itemsInCart.iterator();
+        while (iterator.hasNext()) {
+            CartItem item = iterator.next();
+            iterator.remove();  // Safely remove the item from the list
+            cartItemRepository.delete(item);
+        }
+
+        /*Listan av CartItems
+        List<CartItem> itemsInCart = cart.getCartItems();
+
+        for(CartItem item : itemsInCart) {
+            cart.getCartItems().remove(item);
+            cartItemRepository.delete(item);
+        }*/
+
+        cartRepository.save(cart);
+    }
+
+    @Transactional
+    public ResponseEntity<String> getReceipt(
+            @AuthenticationPrincipal UserDetails userDetails
+    ) {
+        Customer customer = customerRepository.findByUsername(userDetails.getUsername())
+                .orElseThrow(() -> new RuntimeException("User not found"));;
+
+        Cart cart = customer.getCart();
+        double totalCost = 0;
+        StringBuilder result = new StringBuilder("");
+        for (CartItem cartItem : cart.getCartItems()) {
+            totalCost += cartItem.getProduct().getPrice() * cartItem.getQuantity();
+            result.append("Product: ").append(cartItem.getProduct().getName())
+                    .append(", Price: ").append(cartItem.getProduct().getPrice())
+                    .append(", Quantity: ").append(cartItem.getQuantity())
+                    .append("\n");
+        }
+        String response = "Thank you for shopping! Here's your receipt:\n" + result.toString() + "Total Cost: " + totalCost;
+        return ResponseEntity.ok(response);
     }
 }
