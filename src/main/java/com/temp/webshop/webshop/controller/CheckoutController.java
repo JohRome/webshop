@@ -15,17 +15,6 @@ public class CheckoutController {
 
     private final CartService cartService;
 
-
-    /*public ResponseEntity<String> checkoutCart(
-            @AuthenticationPrincipal UserDetails userDetails
-    ) {
-        String receipt = cartService.getReceipt(userDetails);
-
-        cartService.emptyCart(userDetails);
-
-        return ResponseEntity.ok(receipt);
-    }
-}*/
     @DeleteMapping("")
     @PreAuthorize("hasRole('ROLE_USER')")
     public ResponseEntity<String> checkoutCart(
@@ -33,6 +22,8 @@ public class CheckoutController {
             ) {
 
         ResponseEntity<String> response = cartService.getReceipt(userDetails);
+
+        cartService.emptyCart(userDetails); //kommentera bort så funkar "kvitto"
 
         return response;
     }
@@ -43,3 +34,13 @@ public class CheckoutController {
         String endShopping = "Thank you for your payment! Here's your receipt: \n" + response;*/
 //cartService.deleteCart(userDetails);
 
+ /*public ResponseEntity<String> checkoutCart(
+            @AuthenticationPrincipal UserDetails userDetails
+    ) {
+        String receipt = cartService.getReceipt(userDetails);
+
+        cartService.emptyCart(userDetails);
+
+        return ResponseEntity.ok(receipt);
+    }
+}*/

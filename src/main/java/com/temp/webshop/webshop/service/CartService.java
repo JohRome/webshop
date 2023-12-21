@@ -81,7 +81,8 @@ public class CartService {
             @AuthenticationPrincipal UserDetails userDetails
     ) {
         Customer customer = customerRepository.findByUsername(userDetails.getUsername())
-                .orElseThrow(() -> new RuntimeException("User not found"));;
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        ;
 
         Cart cart = customer.getCart();
         double totalCost = 0;
@@ -112,7 +113,7 @@ public class CartService {
             Long productId,
             int quantity) {
 
-        // Extract username from UserDetails
+        /*// Extract username from UserDetails
         String username = userDetails.getUsername();
 
         // Find customer by username
@@ -122,7 +123,10 @@ public class CartService {
         // Check if the customer is the correct one
         if (!customer.getUsername().equals(userDetails.getUsername())) {
             throw new RuntimeException("Unauthorized operation");
-        }
+        }*/
+
+        //Innehåller all data ovan
+        Customer customer = findCustomer(userDetails);
 
         // Find product by id
         Product product = productRepository.findById(productId)
@@ -156,19 +160,33 @@ public class CartService {
         customerRepository.save(customer);
     }
 
-
-
     @Transactional
+    public void emptyCart(@AuthenticationPrincipal UserDetails userDetails) {
+        Customer customer = findCustomer(userDetails);
+        Cart cart = customer.getCart();
+
+        for (CartItem item : cart.getCartItems()) {
+            cartItemRepository.delete(item);
+        }
+
+        cart.getCartItems().clear(); // Clear the items in the cart
+
+        cartRepository.save(cart);
+        customerRepository.save(customer);
+    }
+
+    /*@Transactional
     public void emptyCart(
             @AuthenticationPrincipal UserDetails userDetails
     ) {
-        Customer customer = customerRepository.findByUsername(userDetails.getUsername())
-                .orElseThrow(() -> new RuntimeException("User not found"));
+        Customer customer = findCustomer(userDetails);
 
         //Hämtar den här customers cart
         Cart cart = customer.getCart();
 
+        //hämtar alla CartItems i Cart
         List<CartItem> itemsInCart = new ArrayList<>(cart.getCartItems());
+
 
         Iterator<CartItem> iterator = itemsInCart.iterator();
         while (iterator.hasNext()) {
@@ -176,24 +194,34 @@ public class CartService {
             iterator.remove();  // Safely remove the item from the list
             cartItemRepository.delete(item);
         }
-
-        /*Listan av CartItems
-        List<CartItem> itemsInCart = cart.getCartItems();
-
-        for(CartItem item : itemsInCart) {
-            cart.getCartItems().remove(item);
-            cartItemRepository.delete(item);
-        }*/
-
         cartRepository.save(cart);
+        customerRepository.save(customer);
+    }*/
+
+    @Transactional
+    public Customer findCustomer(
+            @AuthenticationPrincipal UserDetails userDetails
+    ) {
+        // Extract username from UserDetails
+        String username = userDetails.getUsername();
+
+        // Find customer by username
+        Customer customer = customerRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        // Check if the customer is the correct one
+        if (!customer.getUsername().equals(userDetails.getUsername())) {
+            throw new RuntimeException("Unauthorized operation");
+        } else {
+            return customer;
+        }
     }
 
     @Transactional
     public ResponseEntity<String> getReceipt(
             @AuthenticationPrincipal UserDetails userDetails
     ) {
-        Customer customer = customerRepository.findByUsername(userDetails.getUsername())
-                .orElseThrow(() -> new RuntimeException("User not found"));;
+        Customer customer = findCustomer(userDetails);
 
         Cart cart = customer.getCart();
         double totalCost = 0;
@@ -209,3 +237,10 @@ public class CartService {
         return ResponseEntity.ok(response);
     }
 }
+   /*Listan av CartItems
+        List<CartItem> itemsInCart = cart.getCartItems();
+
+        for(CartItem item : itemsInCart) {
+            cart.getCartItems().remove(item);
+            cartItemRepository.delete(item);
+        }*/
