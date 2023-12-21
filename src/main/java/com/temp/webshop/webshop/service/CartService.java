@@ -86,25 +86,16 @@ public class CartService {
 
         Cart cart = customer.getCart();
         double totalCost = 0;
-        StringBuilder result = new StringBuilder("");//Items in cart: \n");
+        StringBuilder result = new StringBuilder("");
         for (CartItem cartItem : cart.getCartItems()) {
             totalCost += cartItem.getProduct().getPrice() * cartItem.getQuantity();
             result.append("Product: ").append(cartItem.getProduct().getName())
                     .append(", Price: ").append(cartItem.getProduct().getPrice())
                     .append(", Quantity: ").append(cartItem.getQuantity())
-                    //.append(", Total Cost: ").append(totalCost)
                     .append("\n");
-
-        /*StringBuilder result = new StringBuilder("Items in cart: \n");
-        for (CartItem cartItem : cart.getCartItems()) {
-            result.append("Product: ").append(cartItem.getProduct().getName())
-                    .append(", Price: ").append(cartItem.getProduct().getPrice())
-                    .append(", Quantity: ").append(cartItem.getQuantity())
-                    .append("\n");*/
         }
         String resultWithTotalPrice = result.toString() + "Total Cost: " + totalCost;
         return ResponseEntity.ok(resultWithTotalPrice);
-        //return ResponseEntity.ok(result.toString());
     }
 
     @Transactional
@@ -112,18 +103,6 @@ public class CartService {
             @AuthenticationPrincipal UserDetails userDetails,
             Long productId,
             int quantity) {
-
-        /*// Extract username from UserDetails
-        String username = userDetails.getUsername();
-
-        // Find customer by username
-        Customer customer = customerRepository.findByUsername(username)
-                .orElseThrow(() -> new RuntimeException("User not found"));
-
-        // Check if the customer is the correct one
-        if (!customer.getUsername().equals(userDetails.getUsername())) {
-            throw new RuntimeException("Unauthorized operation");
-        }*/
 
         //Innehåller all data ovan
         Customer customer = findCustomer(userDetails);
@@ -175,28 +154,6 @@ public class CartService {
         customerRepository.save(customer);
     }
 
-    /*@Transactional
-    public void emptyCart(
-            @AuthenticationPrincipal UserDetails userDetails
-    ) {
-        Customer customer = findCustomer(userDetails);
-
-        //Hämtar den här customers cart
-        Cart cart = customer.getCart();
-
-        //hämtar alla CartItems i Cart
-        List<CartItem> itemsInCart = new ArrayList<>(cart.getCartItems());
-
-
-        Iterator<CartItem> iterator = itemsInCart.iterator();
-        while (iterator.hasNext()) {
-            CartItem item = iterator.next();
-            iterator.remove();  // Safely remove the item from the list
-            cartItemRepository.delete(item);
-        }
-        cartRepository.save(cart);
-        customerRepository.save(customer);
-    }*/
 
     @Transactional
     public Customer findCustomer(
@@ -237,10 +194,3 @@ public class CartService {
         return ResponseEntity.ok(response);
     }
 }
-   /*Listan av CartItems
-        List<CartItem> itemsInCart = cart.getCartItems();
-
-        for(CartItem item : itemsInCart) {
-            cart.getCartItems().remove(item);
-            cartItemRepository.delete(item);
-        }*/

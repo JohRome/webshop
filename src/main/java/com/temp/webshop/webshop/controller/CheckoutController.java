@@ -28,19 +28,3 @@ public class CheckoutController {
         return response;
     }
 }
-
-/*ResponseEntity<String> response = cartService.getAllProductsFromCart(userDetails);
-
-        String endShopping = "Thank you for your payment! Here's your receipt: \n" + response;*/
-//cartService.deleteCart(userDetails);
-
- /*public ResponseEntity<String> checkoutCart(
-            @AuthenticationPrincipal UserDetails userDetails
-    ) {
-        String receipt = cartService.getReceipt(userDetails);
-
-        cartService.emptyCart(userDetails);
-
-        return ResponseEntity.ok(receipt);
-    }
-}*/
