@@ -1,5 +1,6 @@
 package com.temp.webshop.webshop.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -29,13 +30,14 @@ public class Product {
 
     private String description;
 
-    public Product(String name, double price, String description) {
-        this.name = name;
-        this.price = price;
-        this.description = description;
-    }
+//    public Product(String name, double price, String description) {
+//        this.name = name;
+//        this.price = price;
+//        this.description = description;
+//    }
 
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
-    private List<CartItem> cartItems = new ArrayList<>();
+//    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+//    @JsonManagedReference(value = "product-backref")
+//    private List<CartItem> cartItems = new ArrayList<>();
 
 }
