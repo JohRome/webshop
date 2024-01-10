@@ -23,7 +23,7 @@ public class JWTTokenProvider {
     private String jwtSecretKey;
 
     // Same as above...
-    // Token expire:ar varje 24h
+    // Token expires every 24 h
     @Value("${app.jwt-expiration-milliseconds}")
     private long jwtExpirationDate;
 

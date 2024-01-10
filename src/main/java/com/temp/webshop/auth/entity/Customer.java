@@ -1,6 +1,5 @@
 package com.temp.webshop.auth.entity;
 
-import com.temp.webshop.auth.entity.Role;
 import com.temp.webshop.webshop.entity.Cart;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -40,13 +39,6 @@ public class Customer implements UserDetails {
             inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
     private Set<Role> roles;
 
-    public Customer(Long customerId, String username, String password, Set<Role> roles, Cart cart) {
-        this.customerId = customerId;
-        this.username = username;
-        this.password = password;
-        this.roles = roles;
-        this.cart = cart;
-    }
     public Customer(Long customerId, String username, String password, Set<Role> roles) {
         this.customerId = customerId;
         this.username = username;

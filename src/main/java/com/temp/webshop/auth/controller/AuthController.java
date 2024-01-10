@@ -19,11 +19,6 @@ public class AuthController {
 
     private final AuthService authService;
 
-    /**
-     * Method with endpoint "/auth/login" that uses the LoginDTO and
-     * @param dto
-     * @return
-     */
     @PostMapping("/login")
     public ResponseEntity<JWTAuthResponse> login(@RequestBody LoginDTO dto) {
 
