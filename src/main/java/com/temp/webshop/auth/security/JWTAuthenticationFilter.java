@@ -25,6 +25,15 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
     private final JWTTokenProvider jwtTokenProvider;
     private final UserDetailsService userDetailsService;
 
+    /**
+     * Filters incoming requests to validate and set up authentication based on JWT tokens.
+     *
+     * @param request     The HTTP request made by the client.
+     * @param response    The HTTP response that will be sent to the client.
+     * @param filterChain The filter chain for processing the request.
+     * @throws ServletException If a servlet-specific error occurs.
+     * @throws IOException      If an input or output exception occurs.
+     */
     @Override
     protected void doFilterInternal(@NonNull HttpServletRequest request,
                                     @NonNull HttpServletResponse response,
@@ -54,6 +63,12 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
 
     }
 
+    /**
+     * Extracts the JWT token from the Authorization header in the request.
+     *
+     * @param request The HTTP request made by the client.
+     * @return The JWT token if present, or null if not found.
+     */
     private String getTokenFromRequest(HttpServletRequest request) {
 
         String bearerToken = request.getHeader("Authorization");

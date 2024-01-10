@@ -20,6 +20,9 @@ public class RoleInitializer {
     private final CustomerRepository customerRepository;
     private final PasswordEncoder passwordEncoder;
 
+    /**
+     * Method that creates a new user with an admin role. This simplifies the start-up.
+     */
     @PostConstruct
     public void createAdminWithAdminRole() {
 
@@ -42,14 +45,17 @@ public class RoleInitializer {
         }
     }
 
+    /**
+     * Method that creates a new User-role(customer).
+     */
     @PostConstruct
     public void createRoleUser() {
         // Här skapar vi bara en vanlig User roll om den inte redan finns
         // Detta är för att när en ny Customer reggar sig så letar vi först efter ROLE_USER i databasen och sen tilldelar
         if (!roleRepository.existsByName("ROLE_USER")) {
-            Role gardenMasterRole = new Role();
-            gardenMasterRole.setName("ROLE_USER");
-            roleRepository.save(gardenMasterRole);
+            Role userRole = new Role();
+            userRole.setName("ROLE_USER");
+            roleRepository.save(userRole);
         }
     }
 }

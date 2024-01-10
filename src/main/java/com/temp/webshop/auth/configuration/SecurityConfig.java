@@ -23,20 +23,36 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @RequiredArgsConstructor
 public class SecurityConfig {
 
-    private final UserDetailsService userDetailsService;
+    //private final UserDetailsService userDetailsService;
     private final JWTAuthenticationEntryPoint jwtAuthenticationEntryPoint;
     private final JWTAuthenticationFilter jwtAuthenticationFilter;
 
+    /**
+     * Method which is using BCryptPasswordEncoder to securely hash passwords for storage
+     * @return
+     */
     @Bean
     public static PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
+    /**
+     * This method uses "AuthenticationManager" which is responsible for authenticating an Authentication-request
+     * @param configuration
+     * @return
+     * @throws Exception
+     */
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
         return configuration.getAuthenticationManager();
     }
 
+    /**
+     * SecurityFilterChain method that authorizes whatever you ask it to authorize by using "requestMatchers".
+     * @param http
+     * @return
+     * @throws Exception
+     */
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
@@ -44,10 +60,6 @@ public class SecurityConfig {
                 .authorizeHttpRequests((authorize) ->
 
                         authorize
-                                // /auth tillåter alla men vi måste se till att antingen bygga på den här delen
-                                // med vad som är tillåtet eller ej, eller gå in i våra controller-klasser och
-                                // annotera med @PreAuthorize("hasRole('ADMIN eller CUSTOMER')")
-
                                 .requestMatchers("/auth/**").permitAll()
                                 .requestMatchers("/products/").permitAll()
                                 .anyRequest().authenticated()

@@ -29,15 +29,4 @@ public class Product {
     private double price;
 
     private String description;
-
-//    public Product(String name, double price, String description) {
-//        this.name = name;
-//        this.price = price;
-//        this.description = description;
-//    }
-
-//    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
-//    @JsonManagedReference(value = "product-backref")
-//    private List<CartItem> cartItems = new ArrayList<>();
-
 }

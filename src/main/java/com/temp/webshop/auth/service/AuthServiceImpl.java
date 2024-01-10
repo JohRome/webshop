@@ -36,7 +36,6 @@ public class AuthServiceImpl implements AuthService {
 
     private boolean isUsernameExisting(RegisterDTO dto) {
 
-        // Vi kan bygga våra egna Exceptions så det hanteras snyggare ist för att använda en fjutting sout
         if (customerRepository.existsByUsername(dto.getUsername())) {
             System.out.println("Username already exists!");
         }
@@ -47,7 +46,6 @@ public class AuthServiceImpl implements AuthService {
 
     private Set<Role> setUserRole() {
 
-        // Här bara sätter vi ROLE_USER till automatiskt till varje Customer som reggar sig
         Set<Role> roles = new HashSet<>();
         Role userRole = roleRepository.findByName("ROLE_USER").get();
         roles.add(userRole);
@@ -65,8 +63,6 @@ public class AuthServiceImpl implements AuthService {
 
         return customer;
     }
-
-    // Detta behövs nog inte
     private Cart createNewCart() {
         Cart cart = new Cart();
         cartRepository.save(cart);
@@ -85,8 +81,6 @@ public class AuthServiceImpl implements AuthService {
 
             customerRepository.save(customer);
         }
-
-        // Samma sak här, vi kanske kan returna något roligare än en fattig String, om det ens behövs...
         return "Customer registered successfully!";
     }
 

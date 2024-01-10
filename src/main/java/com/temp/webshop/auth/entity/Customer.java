@@ -29,13 +29,9 @@ public class Customer implements UserDetails {
     @Column(nullable = false)
     private String password;
 
-    // Vi får lägga till en relation till Cart här
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "cart_id")
     private Cart cart;
-    /*@OneToOne(mappedBy = "customer")
-    private Cart cart;*/
-
 
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)

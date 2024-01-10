@@ -23,7 +23,7 @@ public class CheckoutController {
 
         ResponseEntity<String> response = cartService.getReceipt(userDetails);
 
-        cartService.emptyCart(userDetails); //kommentera bort så funkar "kvitto"
+        cartService.emptyCart(userDetails);
 
         return response;
     }

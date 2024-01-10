@@ -19,11 +19,14 @@ public class AuthController {
 
     private final AuthService authService;
 
+    /**
+     * Method with endpoint "/auth/login" that uses the LoginDTO and
+     * @param dto
+     * @return
+     */
     @PostMapping("/login")
     public ResponseEntity<JWTAuthResponse> login(@RequestBody LoginDTO dto) {
 
-        // Vi kan välja att skicka tillbaka något annat än JWTAuthResponse ifall vi vill visa flera detaljer,
-        // så som användarnamn kanske? Cart?
         String token = authService.login(dto);
 
         JWTAuthResponse jwtAuthResponse = new JWTAuthResponse();
@@ -35,7 +38,6 @@ public class AuthController {
     @PostMapping("/register")
     public ResponseEntity<String> register(@RequestBody RegisterDTO dto) {
 
-        // Samma som ovan, vi kanske ska skicka tillbaka något mer än en fjuttig String?
         String response = authService.register(dto);
 
         return new ResponseEntity<>(response, HttpStatus.CREATED);
