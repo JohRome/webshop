@@ -32,7 +32,7 @@ public class CartController {
             @AuthenticationPrincipal UserDetails userDetails,
             @PathVariable Long id,
             @RequestBody ProductQuantityToCartDTO quantity) {
-        cartService.addProductToCart(userDetails, id, quantity.getQuantity());
+        cartService.addProductToCart(userDetails.getUsername(), id, quantity.getQuantity());
     }
 
     @GetMapping("/")
@@ -40,7 +40,7 @@ public class CartController {
     public ResponseEntity<String> getAllProductsFromCart(
             @AuthenticationPrincipal UserDetails userDetails
     ) {
-        ResponseEntity<String> response = cartService.getAllProductsFromCart(userDetails);
+        ResponseEntity<String> response = cartService.getAllProductsFromCart(userDetails.getUsername());
 
         return response;
     }
@@ -51,6 +51,6 @@ public class CartController {
             @AuthenticationPrincipal UserDetails userDetails,
             @PathVariable Long id,
             @RequestBody ProductQuantityToCartDTO quantity) {
-        cartService.removeProductFromCart(userDetails, id, quantity.getQuantity());
+        cartService.removeProductFromCart(userDetails.getUsername(), id, quantity.getQuantity());
     }
 }

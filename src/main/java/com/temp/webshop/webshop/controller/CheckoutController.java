@@ -21,9 +21,9 @@ public class CheckoutController {
             @AuthenticationPrincipal UserDetails userDetails
             ) {
 
-        ResponseEntity<String> response = cartService.getReceipt(userDetails);
+        ResponseEntity<String> response = cartService.getReceipt(userDetails.getUsername());
 
-        cartService.emptyCart(userDetails);
+        cartService.emptyCart(userDetails.getUsername());
 
         return response;
     }

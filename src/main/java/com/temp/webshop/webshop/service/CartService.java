@@ -27,20 +27,12 @@ public class CartService {
     private final CartItemRepository cartItemRepository;
 
     @Transactional
-    public void addProductToCart(
-            @AuthenticationPrincipal UserDetails userDetails,
-            Long productId,
-            int quantity) {
+    public void addProductToCart(String username, Long productId, int quantity) {
 
-        // Extract username from UserDetails
-        String username = userDetails.getUsername();
-
-        // Find customer in db with extracted username
-        Customer customer = customerRepository.findByUsername(username)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+        Customer customer = findCustomer(username);
 
         // Check to see if it's current customer
-        if (!customer.getUsername().equals(userDetails.getUsername())) {
+        if (!customer.getUsername().equals(username)) {
             throw new RuntimeException("Unauthorized operation");
         }
 
@@ -77,12 +69,9 @@ public class CartService {
     }
 
     @Transactional
-    public ResponseEntity<String> getAllProductsFromCart(
-            @AuthenticationPrincipal UserDetails userDetails
-    ) {
-        Customer customer = customerRepository.findByUsername(userDetails.getUsername())
-                .orElseThrow(() -> new RuntimeException("User not found"));
-        ;
+    public ResponseEntity<String> getAllProductsFromCart(String username) {
+
+        Customer customer = findCustomer(username);
 
         Cart cart = customer.getCart();
         double totalCost = 0;
@@ -99,13 +88,9 @@ public class CartService {
     }
 
     @Transactional
-    public void removeProductFromCart(
-            @AuthenticationPrincipal UserDetails userDetails,
-            Long productId,
-            int quantity) {
+    public void removeProductFromCart(String username, Long productId, int quantity) {
 
-        //Innehåller all data ovan
-        Customer customer = findCustomer(userDetails);
+        Customer customer = findCustomer(username);
 
         // Find product by id
         Product product = productRepository.findById(productId)
@@ -139,9 +124,10 @@ public class CartService {
         customerRepository.save(customer);
     }
 
+
     @Transactional
-    public void emptyCart(@AuthenticationPrincipal UserDetails userDetails) {
-        Customer customer = findCustomer(userDetails);
+    public void emptyCart(String username) {
+        Customer customer = findCustomer(username);
         Cart cart = customer.getCart();
 
         for (CartItem item : cart.getCartItems()) {
@@ -156,18 +142,15 @@ public class CartService {
 
 
     @Transactional
-    public Customer findCustomer(
-            @AuthenticationPrincipal UserDetails userDetails
-    ) {
-        // Extract username from UserDetails
-        String username = userDetails.getUsername();
+    public Customer findCustomer(String username) {
+
 
         // Find customer by username
         Customer customer = customerRepository.findByUsername(username)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
         // Check if the customer is the correct one
-        if (!customer.getUsername().equals(userDetails.getUsername())) {
+        if (!customer.getUsername().equals(username)) {
             throw new RuntimeException("Unauthorized operation");
         } else {
             return customer;
@@ -175,10 +158,8 @@ public class CartService {
     }
 
     @Transactional
-    public ResponseEntity<String> getReceipt(
-            @AuthenticationPrincipal UserDetails userDetails
-    ) {
-        Customer customer = findCustomer(userDetails);
+    public ResponseEntity<String> getReceipt(String username) {
+        Customer customer = findCustomer(username);
 
         Cart cart = customer.getCart();
         double totalCost = 0;
