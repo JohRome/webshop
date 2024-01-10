@@ -21,10 +21,12 @@ public class CheckoutController {
             @AuthenticationPrincipal UserDetails userDetails
             ) {
 
-        ResponseEntity<String> response = cartService.getReceipt(userDetails.getUsername());
-
+//        ResponseEntity<String> response = cartService.getReceipt(userDetails.getUsername());
+        String response = cartService.getReceipt(userDetails.getUsername());
         cartService.emptyCart(userDetails.getUsername());
 
-        return response;
+
+        //return response;
+        return ResponseEntity.ok(response);
     }
 }

@@ -11,11 +11,7 @@ import com.temp.webshop.webshop.repository.ProductRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
-
-import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -27,14 +23,24 @@ public class CartService {
     private final CartItemRepository cartItemRepository;
 
     @Transactional
+    protected Customer findCustomer(String username) {
+
+        // Find customer by username
+        Customer customer = customerRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        // Check if the customer is the correct one
+        if (!customer.getUsername().equals(username)) {
+            throw new RuntimeException("Unauthorized operation");
+        } else {
+            return customer;
+        }
+    }
+
+    @Transactional
     public void addProductToCart(String username, Long productId, int quantity) {
 
         Customer customer = findCustomer(username);
-
-        // Check to see if it's current customer
-        if (!customer.getUsername().equals(username)) {
-            throw new RuntimeException("Unauthorized operation");
-        }
 
         // Find the wanted product by id
         Product product = productRepository.findById(productId)
@@ -124,6 +130,22 @@ public class CartService {
         customerRepository.save(customer);
     }
 
+    @Transactional
+    public String getReceipt(String username) {
+        Customer customer = findCustomer(username);
+
+        Cart cart = customer.getCart();
+        double totalCost = 0;
+        StringBuilder result = new StringBuilder("");
+        for (CartItem cartItem : cart.getCartItems()) {
+            totalCost += cartItem.getProduct().getPrice() * cartItem.getQuantity();
+            result.append("Product: ").append(cartItem.getProduct().getName())
+                    .append(", Price: ").append(cartItem.getProduct().getPrice())
+                    .append(", Quantity: ").append(cartItem.getQuantity())
+                    .append("\n");
+        }
+        return "Thank you for shopping! Here's your receipt:\n" + result.toString() + "Total Cost: " + totalCost;
+    }
 
     @Transactional
     public void emptyCart(String username) {
@@ -138,40 +160,5 @@ public class CartService {
 
         cartRepository.save(cart);
         customerRepository.save(customer);
-    }
-
-
-    @Transactional
-    public Customer findCustomer(String username) {
-
-
-        // Find customer by username
-        Customer customer = customerRepository.findByUsername(username)
-                .orElseThrow(() -> new RuntimeException("User not found"));
-
-        // Check if the customer is the correct one
-        if (!customer.getUsername().equals(username)) {
-            throw new RuntimeException("Unauthorized operation");
-        } else {
-            return customer;
-        }
-    }
-
-    @Transactional
-    public ResponseEntity<String> getReceipt(String username) {
-        Customer customer = findCustomer(username);
-
-        Cart cart = customer.getCart();
-        double totalCost = 0;
-        StringBuilder result = new StringBuilder("");
-        for (CartItem cartItem : cart.getCartItems()) {
-            totalCost += cartItem.getProduct().getPrice() * cartItem.getQuantity();
-            result.append("Product: ").append(cartItem.getProduct().getName())
-                    .append(", Price: ").append(cartItem.getProduct().getPrice())
-                    .append(", Quantity: ").append(cartItem.getQuantity())
-                    .append("\n");
-        }
-        String response = "Thank you for shopping! Here's your receipt:\n" + result.toString() + "Total Cost: " + totalCost;
-        return ResponseEntity.ok(response);
     }
 }
