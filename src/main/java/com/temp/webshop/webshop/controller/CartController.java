@@ -35,14 +35,24 @@ public class CartController {
         cartService.addProductToCart(userDetails.getUsername(), id, quantity.getQuantity());
     }
 
+//    @GetMapping("/")
+//    @PreAuthorize("hasRole('ROLE_USER')")
+//    public ResponseEntity<String> getAllProductsFromCart(
+//            @AuthenticationPrincipal UserDetails userDetails
+//    ) {
+//        ResponseEntity<String> response = cartService.getAllProductsFromCart(userDetails.getUsername());
+//
+//        return response;
+//    }
+
     @GetMapping("/")
     @PreAuthorize("hasRole('ROLE_USER')")
     public ResponseEntity<String> getAllProductsFromCart(
             @AuthenticationPrincipal UserDetails userDetails
     ) {
-        ResponseEntity<String> response = cartService.getAllProductsFromCart(userDetails.getUsername());
+        String response = cartService.getAllProductsFromCart(userDetails.getUsername());
 
-        return response;
+        return ResponseEntity.ok(response);
     }
 
     @DeleteMapping("/{id}")

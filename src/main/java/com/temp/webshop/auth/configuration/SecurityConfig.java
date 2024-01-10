@@ -23,7 +23,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @RequiredArgsConstructor
 public class SecurityConfig {
 
-    //private final UserDetailsService userDetailsService;
+    private final UserDetailsService userDetailsService;
     private final JWTAuthenticationEntryPoint jwtAuthenticationEntryPoint;
     private final JWTAuthenticationFilter jwtAuthenticationFilter;
 

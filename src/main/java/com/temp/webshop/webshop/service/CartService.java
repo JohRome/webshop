@@ -74,8 +74,27 @@ public class CartService {
         customerRepository.save(customer);
     }
 
+//    @Transactional
+//    public ResponseEntity<String> getAllProductsFromCart(String username) {
+//
+//        Customer customer = findCustomer(username);
+//
+//        Cart cart = customer.getCart();
+//        double totalCost = 0;
+//        StringBuilder result = new StringBuilder("");
+//        for (CartItem cartItem : cart.getCartItems()) {
+//            totalCost += cartItem.getProduct().getPrice() * cartItem.getQuantity();
+//            result.append("Product: ").append(cartItem.getProduct().getName())
+//                    .append(", Price: ").append(cartItem.getProduct().getPrice())
+//                    .append(", Quantity: ").append(cartItem.getQuantity())
+//                    .append("\n");
+//        }
+//        String resultWithTotalPrice = result.toString() + "Total Cost: " + totalCost;
+//        return ResponseEntity.ok(resultWithTotalPrice);
+//    }
+
     @Transactional
-    public ResponseEntity<String> getAllProductsFromCart(String username) {
+    public String getAllProductsFromCart(String username) {
 
         Customer customer = findCustomer(username);
 
@@ -89,8 +108,7 @@ public class CartService {
                     .append(", Quantity: ").append(cartItem.getQuantity())
                     .append("\n");
         }
-        String resultWithTotalPrice = result.toString() + "Total Cost: " + totalCost;
-        return ResponseEntity.ok(resultWithTotalPrice);
+        return result + "Total Cost: " + totalCost;
     }
 
     @Transactional
