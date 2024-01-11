@@ -8,7 +8,7 @@
 - see all the existing products in the webshop without being logged in at all
 - add, update and delete products in the webshop logged in as an admin, but not as a customer
 - be able to add to, update and delete products from the personalized shopping cart as a customer
-- be able to see all the products in the basket, check out the basket and receive a receipt
+- be able to see all the products in the cart, check out the cart and receive a receipt
 
 #### Endpoints:
 - http://localhost:8080/admin/ - GET - gets the information about the logged in admin
@@ -26,7 +26,7 @@
 - http://localhost:8080/cart - DELETE - checks out the customer cart with a receipt and total amount before removal
 
 #### Structure: We chose to:
-- create one project with the backend-coding for webshop
+- create one project with the backend coding for webshop
     - where we also chose to separate the security implementation and the webshop in different packages
 - create another project with the frontend coding for the webshop-client
 
@@ -39,7 +39,7 @@
 - Open this in IntelliJ
 - Go to Github and download our Webshop-client-project:
   ***https://github.com/JohRome/client-webshop***
-- Open tnis project in another IntelliJ window.
+- Open this project in another IntelliJ window.
 - Start the first project by pushing "run" in the main-class
 - Then start the second project by pushing "run" in that main-class
 - Then please follow the project instructions and enjoy our webshop!
