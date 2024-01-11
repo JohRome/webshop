@@ -8,9 +8,9 @@
 - see all the existing products in the webshop without being logged in at all
 - add, update and delete products in the webshop logged in as an admin, but not as a customer
 - be able to add to, update and delete products from the personalized shopping cart as a customer
-- be able to see all the products in the basket, check out the basket and receive a receipt
-- be able to see your shopping history as a customer
-- be able to see all customers shopping histories as an admin
+- be able to see all the products in the cart, check out the cart and receive a receipt
+- as an admin, be able to see all the different customer's purchase history
+- as a customer, be able to see your own purchase history
 
 #### Endpoints:
 
@@ -28,8 +28,9 @@
 - http://localhost:8080/webshop/history/customer - GET - customer can see the purchase history
 - http://localhost:8080/webshop/history/admin - GET - admin can see all customers purchase histories
 
+
 #### Structure: We chose to:
-- create one project with the backend-coding for webshop
+- create one project with the backend coding for webshop
     - where we also chose to separate the security implementation and the webshop in different packages
 - create another project with the frontend coding for the webshop-client
 
