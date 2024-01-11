@@ -9,6 +9,8 @@
 - add, update and delete products in the webshop logged in as an admin, but not as a customer
 - be able to add to, update and delete products from the personalized shopping cart as a customer
 - be able to see all the products in the cart, check out the cart and receive a receipt
+- as an admin, be able to see all the different customer's purchase history
+- as a customer, be able to see your own purchase history
 
 #### Endpoints:
 - http://localhost:8080/admin/ - GET - gets the information about the logged in admin
@@ -24,6 +26,8 @@
 - http://localhost:8080/cart/ - GET - see all the existing products in the customer cart
 - http://localhost:8080/cart/{id} - DELETE - deletes the product that matches the "{id}" from the customer's cart
 - http://localhost:8080/cart - DELETE - checks out the customer cart with a receipt and total amount before removal
+- http://localhost:8080/history - GET - finds the purchase history in the database that matches with the logged in customer
+- http://localhost:8080/history/admin - GET - finds all the existing purchase history in the database
 
 #### Structure: We chose to:
 - create one project with the backend coding for webshop
