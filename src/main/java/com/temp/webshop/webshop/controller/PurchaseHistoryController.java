@@ -14,13 +14,13 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/history")
+@RequestMapping("/webshop/history")
 public class PurchaseHistoryController {
 
     private final PurchaseHistoryService purchaseHistoryService;
 
 
-    @GetMapping("/")
+    @GetMapping("/customer")
     @PreAuthorize("hasRole('USER')")
     public List<PurchaseHistory> getCustomerPurchaseHistories(@AuthenticationPrincipal UserDetails userDetails) {
         return purchaseHistoryService.getCustomerHistory(userDetails.getUsername());
