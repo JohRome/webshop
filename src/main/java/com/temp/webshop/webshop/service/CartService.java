@@ -144,7 +144,6 @@ public class CartService {
                     .append(", Quantity: ").append(cartItem.getQuantity())
                     .append("\n");
         }
-//        purchaseHistoryService.saveReceipt(String.valueOf(result), totalCost);
         purchaseHistoryService.saveReceipt(username, String.valueOf(result), totalCost);
         cartRepository.save(cart);
         customerRepository.save(customer);

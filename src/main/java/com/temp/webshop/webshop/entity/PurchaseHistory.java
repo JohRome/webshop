@@ -1,5 +1,6 @@
 package com.temp.webshop.webshop.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.temp.webshop.auth.entity.Customer;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -27,9 +28,7 @@ public class PurchaseHistory {
 
     @ManyToOne
     @JoinColumn(name = "customer_id")
+    @JsonIgnore
     private Customer customer;
 
-//    public PurchaseHistory(Long id, String history, double price) {
-//
-//    }
 }

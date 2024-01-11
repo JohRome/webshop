@@ -7,12 +7,17 @@ import com.temp.webshop.webshop.repository.CartRepository;
 import com.temp.webshop.webshop.repository.PurchaseHistoryRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class PurchaseHistoryService {
-
 
 
     private final PurchaseHistoryRepository purchaseHistoryRepository;
@@ -38,6 +43,25 @@ public class PurchaseHistoryService {
             throw new RuntimeException("Unauthorized operation");
         } else {
             return customer;
+        }
+    }
+
+    public List<PurchaseHistory> getCustomerHistory(String username) {
+        return purchaseHistoryRepository.findPurchaseHistoriesByCustomerUsername(username);
+    }
+
+    public List<PurchaseHistory> getAllCustomersPurchaseHistories() {
+        checkAdminRole();
+        return purchaseHistoryRepository.findAll();
+    }
+
+    private void checkAdminRole() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if (authentication == null || authentication.getAuthorities().stream()
+                .map(GrantedAuthority::getAuthority)
+                .noneMatch(r -> r.equals("ROLE_ADMIN"))) {
+            throw new AccessDeniedException("Access denied");
         }
     }
 }

@@ -62,6 +62,7 @@ public class SecurityConfig {
                         authorize
                                 .requestMatchers("/auth/**").permitAll()
                                 .requestMatchers("/products/").permitAll()
+                                //.requestMatchers("/history/").hasRole("ADMIN")
                                 .anyRequest().authenticated()
                 ).exceptionHandling( exception -> exception
                         .authenticationEntryPoint(jwtAuthenticationEntryPoint)
