@@ -1,18 +1,23 @@
 package com.temp.webshop.auth.entity;
 
 import com.temp.webshop.webshop.entity.Cart;
+import com.temp.webshop.webshop.entity.PurchaseHistory;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+//@ToString
 @Entity
 @Table(name = "customers")
 public class Customer implements UserDetails {
@@ -31,6 +36,10 @@ public class Customer implements UserDetails {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "cart_id")
     private Cart cart;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "history_id")
+    private List<PurchaseHistory> purchaseHistory = new ArrayList<>();
 
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)

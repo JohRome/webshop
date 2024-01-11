@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RequiredArgsConstructor
-@RequestMapping("/products")
+@RequestMapping("/webshop/products")
 @RestController
 public class ProductController {
 
@@ -31,13 +31,13 @@ public class ProductController {
         return productService.getAllProductsFromShop();
     }
 
-    @PutMapping("/{productId}")
+    @PutMapping("/admin/{productId}")
     @PreAuthorize("hasRole('ADMIN')")
     public Product updateProductInShop(@PathVariable Long productId, @RequestBody Product product) {
         return productService.updateProductInShop(productId, product);
     }
 
-    @DeleteMapping("/{productId}")
+    @DeleteMapping("/admin/{productId}")
     @PreAuthorize("hasRole('ADMIN')")
     public void deleteProductFromShop(@PathVariable Long productId) {
         productService.deleteProductFromShop(productId);

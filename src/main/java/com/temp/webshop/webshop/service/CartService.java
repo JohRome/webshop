@@ -21,6 +21,7 @@ public class CartService {
     private final ProductRepository productRepository;
     private final CartRepository cartRepository;
     private final CartItemRepository cartItemRepository;
+    private final PurchaseHistoryService purchaseHistoryService;
 
     @Transactional
     protected Customer findCustomer(String username) {
@@ -143,6 +144,9 @@ public class CartService {
                     .append(", Quantity: ").append(cartItem.getQuantity())
                     .append("\n");
         }
+        purchaseHistoryService.saveReceipt(username, String.valueOf(result), totalCost);
+        cartRepository.save(cart);
+        customerRepository.save(customer);
         return "Thank you for shopping! Here's your receipt:\n" + result.toString() + "Total Cost: " + totalCost;
     }
 

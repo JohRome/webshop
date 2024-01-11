@@ -9,13 +9,13 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/checkout")
+@RequestMapping("/webshop/checkout")
 @RequiredArgsConstructor
 public class CheckoutController {
 
     private final CartService cartService;
 
-    @DeleteMapping("")
+    @DeleteMapping("/")
     @PreAuthorize("hasRole('ROLE_USER')")
     public ResponseEntity<String> checkoutCart(
             @AuthenticationPrincipal UserDetails userDetails
