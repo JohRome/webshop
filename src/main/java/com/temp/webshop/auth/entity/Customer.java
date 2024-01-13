@@ -17,7 +17,6 @@ import java.util.Set;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-//@ToString
 @Entity
 @Table(name = "customers")
 public class Customer implements UserDetails {
