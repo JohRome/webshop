@@ -19,8 +19,8 @@
 - http://localhost:8080/webshop/products/admin - POST - adds a product to the webshop-database
 - http://localhost:8080/webshop/products/ - GET - see all the existing produts in the webshop
 - http://localhost:8080/webshop/products/{id} - GET - finds the product that matches the "{id}" and adds it to the cart
-- http://localhost:8080/webshop/products/{id} - PUT - updates the product in the webshop-database that matches the "{id}"
-- http://localhost:8080/webshop/products/{id} - DELETE - deletes the product in the webshop-database that matches the "{id}"
+- http://localhost:8080/webshop/products/admin/{id} - PUT - updates the product in the webshop-database that matches the "{id}"
+- http://localhost:8080/webshop/products/admin/{id} - DELETE - deletes the product in the webshop-database that matches the "{id}"
 - http://localhost:8080/webshop/cart/{id} - POST - adds the product that matches with the "{id}" to the customer's cart. If you add the same product twice it updates the quantity instead
 - http://localhost:8080/webshop/cart/ - GET - see all the existing products in the customer cart
 - http://localhost:8080/webshop/cart/{id} - DELETE - deletes the product that matches the "{id}" from the customer's cart
